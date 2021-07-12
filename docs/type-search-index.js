@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"veryfi","l":"Client"},{"p":"<Unnamed>","l":"ClientTest"},{"p":"veryfi","l":"Constants"},{"p":"veryfi","l":"HttpMethod"},{"p":"veryfi","l":"VeryfiClientFactory"}];updateSearchResults();
