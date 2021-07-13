@@ -18,7 +18,7 @@ public class ClientTest {
     String username = "your_username";
     String apiKey = "your_password";
     Client client = VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey);
-    boolean mockResponses = true; //Put it false to test your personal credentials
+    boolean mockResponses = true; // Change to “false” if you want to test your personal credential
 
     @Test
     void getDocumentsTest() throws IOException {
