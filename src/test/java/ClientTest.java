@@ -36,16 +36,17 @@ public class ClientTest {
 
     @Test
     void getDocumentTest() throws IOException {
+        String documentId = "31727276"; // Change to your document Id
         if (mockResponses) {
             client = org.mockito.Mockito.mock(Client.class);
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("getDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
-            Mockito.when(client.getDocument("31727276")).thenReturn(result);
+            Mockito.when(client.getDocument(documentId)).thenReturn(result);
         }
-        String jsonResponse = client.getDocument("31727276");
+        String jsonResponse = client.getDocument(documentId);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals(document.getInt("id"), Integer.parseInt(documentId));
     }
 
     @Test
@@ -56,16 +57,16 @@ public class ClientTest {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
-            Mockito.when(client.processDocument("example1.jpg", categories, false, null)).thenReturn(result);
+            Mockito.when(client.processDocument("receipt.png", categories, false, null)).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("example1.jpg", categories, false, null);
+        String jsonResponse = client.processDocument("receipt.png", categories, false, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void updateDocumentTest() throws IOException {
-        String documentId = "31727276";
+        String documentId = "31727276"; // Change to your document Id
         JSONObject parameters = new JSONObject();
         String notes = "Note updated";
         parameters.put("notes", notes);
@@ -83,14 +84,15 @@ public class ClientTest {
 
     @Test
     void deleteDocumentTest() throws IOException {
+        String documentId = "37769185"; // Change to your document Id
         if (mockResponses) {
             client = org.mockito.Mockito.mock(Client.class);
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
-            Mockito.when(client.deleteDocument("37769185")).thenReturn(result);
+            Mockito.when(client.deleteDocument(documentId)).thenReturn(result);
         }
-        String jsonResponse = client.deleteDocument("37769185");
+        String jsonResponse = client.deleteDocument(documentId);
         Assertions.assertFalse(jsonResponse.isEmpty());
     }
 
@@ -101,11 +103,11 @@ public class ClientTest {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocumentUrl.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
-            Mockito.when(client.processDocumentUrl("https://bloximages.chicago2.vip.townnews.com/dailylocal.com/content/tncms/assets/v3/editorial/d/77/d7745b82-1c1f-11e9-b3bb-032816e700e0/5c43798f9d036.image.jpg", null, null, false, 1, false, null, null)).thenReturn(result);
+            Mockito.when(client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null)).thenReturn(result);
         }
-        String jsonResponse = client.processDocumentUrl("https://bloximages.chicago2.vip.townnews.com/dailylocal.com/content/tncms/assets/v3/editorial/d/77/d7745b82-1c1f-11e9-b3bb-032816e700e0/5c43798f9d036.image.jpg", null, null, false, 1, false, null, null);
+        String jsonResponse = client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -126,18 +128,19 @@ public class ClientTest {
 
     @Test
     void getDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
+        String documentId = "31727276"; // Change to your document Id
         if (mockResponses) {
             client = org.mockito.Mockito.mock(Client.class);
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("getDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             CompletableFuture<String> jsonResponseFuture = CompletableFuture.completedFuture(result);
-            Mockito.when(client.getDocumentAsync("31028657")).thenReturn(jsonResponseFuture);
+            Mockito.when(client.getDocumentAsync(documentId)).thenReturn(jsonResponseFuture);
         }
-        CompletableFuture<String> jsonResponseFuture = client.getDocumentAsync("31028657");
+        CompletableFuture<String> jsonResponseFuture = client.getDocumentAsync(documentId);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals(document.getInt("id"), Integer.parseInt(documentId));
     }
 
     @Test
@@ -149,17 +152,17 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             CompletableFuture<String> jsonResponseFuture = CompletableFuture.completedFuture(result);
-            Mockito.when(client.processDocumentAsync("example1.jpg", categories, false, null)).thenReturn(jsonResponseFuture);
+            Mockito.when(client.processDocumentAsync("receipt.png", categories, false, null)).thenReturn(jsonResponseFuture);
         }
-        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("example1.jpg", categories, false, null);
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("receipt.png", categories, false, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void updateDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
-        String documentId = "31727276";
+        String documentId = "31727276"; // Change to your document Id
         JSONObject parameters = new JSONObject();
         String notes = "Note updated";
         parameters.put("notes", notes);
@@ -178,15 +181,16 @@ public class ClientTest {
 
     @Test
     void deleteDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
+        String documentId = "37769185"; // Change to your document Id
         if (mockResponses) {
             client = org.mockito.Mockito.mock(Client.class);
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             CompletableFuture<String> jsonResponseFuture = CompletableFuture.completedFuture(result);
-            Mockito.when(client.deleteDocumentAsync("37769185")).thenReturn(jsonResponseFuture);
+            Mockito.when(client.deleteDocumentAsync(documentId)).thenReturn(jsonResponseFuture);
         }
-        CompletableFuture<String> jsonResponseFuture = client.deleteDocumentAsync("37769185");
+        CompletableFuture<String> jsonResponseFuture = client.deleteDocumentAsync(documentId);
         String jsonResponse  = jsonResponseFuture.get();
         Assertions.assertFalse(jsonResponse.isEmpty());
     }
@@ -199,12 +203,11 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             CompletableFuture<String> jsonResponseFuture = CompletableFuture.completedFuture(result);
-            Mockito.when(client.processDocumentUrlAsync("https://bloximages.chicago2.vip.townnews.com/dailylocal.com/content/tncms/assets/v3/editorial/d/77/d7745b82-1c1f-11e9-b3bb-032816e700e0/5c43798f9d036.image.jpg", null, null, false, 1, false, null, null)).thenReturn(jsonResponseFuture);
+            Mockito.when(client.processDocumentUrlAsync("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null)).thenReturn(jsonResponseFuture);
         }
-        CompletableFuture<String> jsonResponseFuture = client.processDocumentUrlAsync("https://bloximages.chicago2.vip.townnews.com/dailylocal.com/content/tncms/assets/v3/editorial/d/77/d7745b82-1c1f-11e9-b3bb-032816e700e0/5c43798f9d036.image.jpg", null, null, false, 1, false, null, null);
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentUrlAsync("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertTrue(document.getInt("id") > 0);
+        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
     }
-
 }
