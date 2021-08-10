@@ -8,6 +8,14 @@
     <artifactId>veryfi-java</artifactId>
     <version>1.0.0</version>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Veryfi Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/veryfi/veryfi-java</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -53,6 +61,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>16</source>
                     <target>16</target>
