@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static veryfi.Constants.*;
 
-class ClientImpl implements Client {
+public class ClientImpl implements Client {
     private final String clientId;
     private final String clientSecret;
     private final String username;
@@ -29,7 +29,7 @@ class ClientImpl implements Client {
     private String baseUrl = "https://api.veryfi.com/api/";
     private int timeOut = 120;
     private int apiVersion = 7;
-    private final HttpClient httpClient;
+    private HttpClient httpClient;
 
     /**
      * Creates an instance of {@link ClientImpl}.
@@ -503,5 +503,10 @@ class ClientImpl implements Client {
     @Override
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    @Override
+    public void setHttpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 }
