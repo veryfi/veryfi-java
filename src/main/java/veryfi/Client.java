@@ -2,6 +2,7 @@ package veryfi;
 
 import org.json.JSONObject;
 
+import java.net.http.HttpClient;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -137,5 +138,11 @@ public interface Client {
      * @param baseUrl for the Veryfi API
      */
     void setBaseUrl(String baseUrl);
+
+    /**
+     * By default is https://api.veryfi.com/api/;
+     * @param httpClient for the Veryfi API
+     */
+    void setHttpClient(HttpClient httpClient);
 
 }
