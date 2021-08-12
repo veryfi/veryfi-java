@@ -1,4 +1,4 @@
-####[Docs](https://veryfi.github.io/veryfi-java/veryfi/package-summary.html)
+#### [Docs](https://veryfi.github.io/veryfi-java/veryfi/package-summary.html)
 ![Veryfi Logo](https://cdn.veryfi.com/logos/veryfi-logo-wide-github.png)
 
 [![Java - version](https://img.shields.io/badge/OpenJDK-16-red)](https://openjdk.java.net/projects/jdk/16/)
