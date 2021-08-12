@@ -35,7 +35,7 @@ The **veryfi** library can be used to communicate with Veryfi API. All available
 Below is the sample script using **veryfi** to OCR and extract data from a document:
 
 ```java
-package veryfi;
+import veryfi.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class Main {
 
 Update a document
 ```java
-package veryfi;
+import veryfi.*;
 import org.json.JSONObject;
 
 public class Main {
