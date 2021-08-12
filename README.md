@@ -1,4 +1,5 @@
-#### [Docs](https://veryfi.github.io/veryfi-java/veryfi/package-summary.html)
+https://veryfi.github.io/veryfi-java/
+
 ![Veryfi Logo](https://cdn.veryfi.com/logos/veryfi-logo-wide-github.png)
 
 [![Java - version](https://img.shields.io/badge/OpenJDK-16-red)](https://openjdk.java.net/projects/jdk/16/)
@@ -29,7 +30,7 @@ You may need to run the above commands with `sudo`.
 If you don't have an account with Veryfi, please go ahead and register here: [https://hub.veryfi.com/signup/api/](https://hub.veryfi.com/signup/api/)
 
 ### Java API Client Library
-The **veryfi** library can be used to communicate with Veryfi API. All available functionality is described here https://veryfi.github.io/veryfi-java/reference/veryfi/#client
+The **veryfi** library can be used to communicate with Veryfi API. All available functionality is described here https://veryfi.github.io/veryfi-java/veryfi/Client.html
 
 Below is the sample script using **veryfi** to OCR and extract data from a document:
 
