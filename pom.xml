@@ -8,13 +8,28 @@
     <artifactId>veryfi-java</artifactId>
     <version>1.0.4</version>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Veryfi Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/veryfi/veryfi-java</url>
-        </repository>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>maven-repository</id>
+            <distributionManagement>
+                <repository>
+                    <id>ossrh</id>
+                    <name>Central Repository OSSRH</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>github-repository</id>
+            <distributionManagement>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub Veryfi Apache Maven Packages</name>
+                    <url>https://maven.pkg.github.com/veryfi/veryfi-java</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
