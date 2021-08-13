@@ -6,7 +6,7 @@
 
     <groupId>com.veryfi</groupId>
     <artifactId>veryfi-java</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.4</version>
 
     <distributionManagement>
         <repository>

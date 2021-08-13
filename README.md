@@ -19,7 +19,7 @@ Install the package from Maven:
  <dependency>
      <groupId>com.veryfi</groupId>
      <artifactId>veryfi-java</artifactId>
-     <version>1.0.0</version>
+     <version>1.0.4</version>
  </dependency>
 ```
 You may need to run the above commands with `sudo`.
