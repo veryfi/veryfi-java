@@ -3,34 +3,56 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.veryfi</groupId>
     <artifactId>veryfi-java</artifactId>
     <version>1.0.5</version>
+    <packaging>jar</packaging>
+    <name>veryfi-java</name>
+    <description>
+        The veryfi-java is a Java module for communicating with the Veryfi OCR API (https://veryfi.com/api/)
+    </description>
+    <url>https://www.veryfi.com/</url>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://github.com/veryfi/veryfi-java/blob/main/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>alejo</id>
+            <name>Alejandro Uribe</name>
+            <email>alejandro@veryfi.com</email>
+            <organization>Veryfi</organization>
+            <organizationUrl>http://www.veryfi.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
 
-    <profiles>
-        <profile>
-            <id>maven-repository</id>
-            <distributionManagement>
-                <repository>
-                    <id>ossrh</id>
-                    <name>Central Repository OSSRH</name>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-        <profile>
-            <id>github-repository</id>
-            <distributionManagement>
-                <repository>
-                    <id>github</id>
-                    <name>GitHub Veryfi Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/veryfi/veryfi-java</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
+    <scm>
+        <connection>scm:git:git://github.com/veryfi/veryfi-java.git</connection>
+        <developerConnection>scm:git:git://github.com/veryfi/veryfi-java.git</developerConnection>
+        <url>https://github.com/veryfi/veryfi-java</url>
+        <tag>HEAD</tag>
+    </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>Central Repository OSSRH</name>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Veryfi Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/veryfi/veryfi-java</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -38,7 +60,6 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -75,12 +96,62 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
                     <source>16</source>
                     <target>16</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <!-- This is necessary for gpg to not try to use the pinentry programs -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
