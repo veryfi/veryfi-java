@@ -82,3 +82,10 @@ If you found a bug in this library or would like new features added, then open a
 
 To learn more about Veryfi visit https://www.veryfi.com/
 
+## Tutorial
+
+
+Below is an introduction to the Java SDK.
+
+
+[Link to blog post →](https://www.veryfi.com/java/)

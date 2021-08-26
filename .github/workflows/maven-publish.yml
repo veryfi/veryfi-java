@@ -1,8 +1,5 @@
 name: Publish package to the Maven Central Repository and GitHub Packages
 on:
-  push:
-    branches:
-      - '**'
   release:
     types: [created]
 jobs:
