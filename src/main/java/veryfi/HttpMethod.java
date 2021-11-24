@@ -1,8 +1,7 @@
 package veryfi;
 
-
 /**
- * Enum constans for Http methods..
+ * Enum constants for Http methods.
  */
 public enum HttpMethod {
     /**

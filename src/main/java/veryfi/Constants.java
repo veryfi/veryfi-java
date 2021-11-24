@@ -7,6 +7,9 @@ import java.util.List;
  * header constants for HttpRequests.
  */
 public final class Constants {
+    private Constants() {
+        // private constructor
+    }
     /**
      * header for HttpRequest
      */
