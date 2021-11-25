@@ -2,6 +2,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import veryfi.ClientImpl;
 import veryfi.VeryfiClientFactory;
 
@@ -11,6 +12,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -19,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ClientTest {
+class ClientTest {
     String clientId = "your_client_id";
     String clientSecret = "your_client_secret";
     String username = "your_username";
@@ -36,13 +38,23 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
         String jsonResponse = client.getDocuments();
         JSONArray documents = new JSONArray(jsonResponse);
         Assertions.assertTrue(documents.length() > 0);
+    }
+
+    @Test
+    void getDocumentsTestWithException() throws IOException, InterruptedException {
+        HttpClient httpClient = mock(HttpClient.class);
+        client.setHttpClient(httpClient);
+        when(httpClient.send(any(HttpRequest.class) , ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenThrow(new InterruptedException());
+
+        String jsonResponse = client.getDocuments();
+        Assertions.assertEquals("", jsonResponse);
     }
 
     @Test
@@ -55,7 +67,7 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -74,11 +86,50 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
         String jsonResponse = client.processDocument("receipt.png", categories, false, null);
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
+    void processDocumentTestWithParameters() throws IOException, InterruptedException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        JSONObject parameters = new JSONObject();
+        parameters.put("p1", "p1value");
+        if (mockResponses) {
+            HttpClient httpClient = mock(HttpClient.class);
+            client.setHttpClient(httpClient);
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processDocument("receipt.png", categories, false, parameters);
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
+    void processDocumentTestWithoutCategories() throws IOException, InterruptedException {
+        if (mockResponses) {
+            HttpClient httpClient = mock(HttpClient.class);
+            client.setHttpClient(httpClient);
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processDocument("receipt.png", null, false, null);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
     }
@@ -95,8 +146,8 @@ public class ClientTest {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("updateDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
-            HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            HttpResponse<String> httpResponse = (HttpResponse<String>) mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -115,7 +166,7 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -132,11 +183,32 @@ public class ClientTest {
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(httpResponse);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
         String jsonResponse = client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null);
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
+    void processDocumentUrlTestWithFileUrlsAndParameters() throws IOException, InterruptedException {
+        if (mockResponses) {
+            HttpClient httpClient = mock(HttpClient.class);
+            client.setHttpClient(httpClient);
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocumentUrl.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        JSONObject parameters = new JSONObject();
+        parameters.put("p1", "p1value");
+        String jsonResponse = client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf",
+                Collections.singletonList("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf"), null, false, 1, false, null, parameters);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
     }
@@ -151,7 +223,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -172,7 +244,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -193,7 +265,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -217,7 +289,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -237,7 +309,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
@@ -256,7 +328,7 @@ public class ClientTest {
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
             CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(jsonResponseFuture);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }

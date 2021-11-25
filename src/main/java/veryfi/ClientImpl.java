@@ -18,10 +18,14 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 import static veryfi.Constants.*;
 
 public class ClientImpl implements Client {
+
+    private final Logger logger = Logger.getLogger("ClientImpl");
+
     private final String clientId;
     private final String clientSecret;
     private final String username;
@@ -71,7 +75,7 @@ public class ClientImpl implements Client {
      * @param httpVerb HTTP Method
      * @param endpointName Endpoint name such as 'documents', 'users', etc.
      * @param requestArguments JSON payload to send to Veryfi
-     * @param hasFiles true if there any files to be submitted as binary.
+     * @param hasFiles true if there are any files to be submitted as binary.
      * @return A JSON of the response data.
      */
     private String request(HttpMethod httpVerb, String endpointName, JSONObject requestArguments, boolean hasFiles) {
@@ -80,7 +84,7 @@ public class ClientImpl implements Client {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
             return "";
         }
     }
@@ -99,25 +103,11 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Submit the HTTP request.
-     * @param httpVerb HTTP Method
-     * @param endpointName Endpoint name such as 'documents', 'users', etc.
-     * @param requestArguments JSON payload to send to Veryfi
-     * @param hasFiles true if there any files to be submitted as binary.
-     * @return A JSON of the response data.
-     */
-    private CompletableFuture<String> requestAsync(HttpMethod httpVerb, String endpointName,
-                                                   JSONObject requestArguments, boolean hasFiles) {
-        HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments, hasFiles);
-        return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
-    }
-
-    /**
      * Creates the HTTP request Object.
      * @param httpVerb HTTP Method
      * @param endpointName Endpoint name such as 'documents', 'users', etc.
      * @param requestArguments JSON payload to send to Veryfi
-     * @param hasFiles true if there any files to be submitted as binary.
+     * @param hasFiles true if there are any files to be submitted as binary.
      * @return request Object for the HttpClient {@link HttpRequest}
      */
     private HttpRequest getHttpRequest(HttpMethod httpVerb, String endpointName, JSONObject requestArguments,
@@ -166,7 +156,7 @@ public class ClientImpl implements Client {
 
     /**
      * Prepares the headers needed for a request.
-     * @param hasFiles true if there any files to be submitted as binary
+     * @param hasFiles true if there are any files to be submitted as binary
      * @param requestArguments JSON payload to send to Veryfi {@link JSONObject}
      * @return List of the headers {@link List<String>}
      */
@@ -292,7 +282,7 @@ public class ClientImpl implements Client {
                 base64EncodedString = Base64.getEncoder().encodeToString(fileStream.readAllBytes());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
         JSONObject requestArguments = new JSONObject();
         requestArguments.put(FILE_NAME, fileName);
@@ -300,7 +290,7 @@ public class ClientImpl implements Client {
         requestArguments.put(CATEGORIES, categories);
         requestArguments.put(AUTO_DELETE, deleteAfterProcessing);
 
-        if (parameters!= null && !parameters.isEmpty()) {
+        if (parameters != null && !parameters.isEmpty()) {
             for (String key : JSONObject.getNames(parameters)) {
                 requestArguments.put(key, parameters.get(key));
             }
@@ -369,7 +359,7 @@ public class ClientImpl implements Client {
         }
         requestArguments.put(MAX_PAGES_TO_PROCESS, maxPagesToProcess);
 
-        if (parameters!= null && !parameters.isEmpty()) {
+        if (parameters != null && !parameters.isEmpty()) {
             for (String key : JSONObject.getNames(parameters)) {
                 requestArguments.put(key, parameters.get(key));
             }
@@ -449,10 +439,10 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` and etc.
+     * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
-     * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link String}
+     * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link String}
      */
     @Override
     public String updateDocument(String documentId, JSONObject parameters) {
@@ -461,10 +451,10 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` and etc.
+     * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
-     * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link CompletableFuture<String>}
+     * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link CompletableFuture<String>}
      */
     @Override
     public CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters) {
@@ -497,7 +487,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * By default is https://api.veryfi.com/api/;
+     * By default, the base URL is https://api.veryfi.com/api/;
      * @param baseUrl for the Veryfi API
      */
     @Override
