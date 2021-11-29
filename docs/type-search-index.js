@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"veryfi","l":"Client"},{"p":"veryfi","l":"Constants"},{"p":"veryfi","l":"HttpMethod"},{"p":"veryfi","l":"VeryfiClientFactory"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"veryfi","l":"Client"},{"p":"veryfi","l":"ClientImpl"},{"p":"veryfi","l":"Constants"},{"p":"veryfi","l":"HttpMethod"},{"p":"veryfi","l":"VeryfiClientFactory"}];updateSearchResults();
