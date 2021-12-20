@@ -30,9 +30,9 @@ public class ClientImpl implements Client {
     private final String clientSecret;
     private final String username;
     private final String apiKey;
+    private final int apiVersion;
     private String baseUrl = "https://api.veryfi.com/api/";
     private int timeOut = 120;
-    private int apiVersion = 7;
     private HttpClient httpClient;
 
     /**
@@ -41,12 +41,14 @@ public class ClientImpl implements Client {
      * @param clientSecret the {@link String} provided by Veryfi.
      * @param username the {@link String} provided by Veryfi.
      * @param apiKey the {@link String} provided by Veryfi.
+     * @param apiVersion the {@link int} api version to use Veryfi.
      */
-    public ClientImpl(String clientId, String clientSecret, String username, String apiKey) {
+    public ClientImpl(String clientId, String clientSecret, String username, String apiKey, int apiVersion) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.username = username;
         this.apiKey = apiKey;
+        this.apiVersion = apiVersion;
         this.httpClient = HttpClient.newHttpClient();
     }
 
