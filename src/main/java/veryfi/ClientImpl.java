@@ -22,6 +22,9 @@ import java.util.logging.Logger;
 
 import static veryfi.Constants.*;
 
+/**
+ * Veryfi API client for Java.
+ */
 public class ClientImpl implements Client {
 
     private final Logger logger = Logger.getLogger("ClientImpl");
