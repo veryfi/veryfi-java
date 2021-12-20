@@ -468,16 +468,6 @@ public class ClientImpl implements Client {
     }
 
     /**
-     *
-     * @param version of the API by default is 7
-     */
-    @Override
-    public void setAPIVersion(int version) {
-        apiVersion = version;
-    }
-
-
-    /**
      * Define new time out for the requests in seconds
      * @param timeOut of the http requests in seconds
      */
