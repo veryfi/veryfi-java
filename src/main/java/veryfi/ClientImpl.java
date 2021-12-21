@@ -22,6 +22,9 @@ import java.util.logging.Logger;
 
 import static veryfi.Constants.*;
 
+/**
+ * Veryfi API client for Java.
+ */
 public class ClientImpl implements Client {
 
     private final Logger logger = Logger.getLogger("ClientImpl");
@@ -30,9 +33,9 @@ public class ClientImpl implements Client {
     private final String clientSecret;
     private final String username;
     private final String apiKey;
+    private final int apiVersion;
     private String baseUrl = "https://api.veryfi.com/api/";
     private int timeOut = 120;
-    private int apiVersion = 7;
     private HttpClient httpClient;
 
     /**
@@ -41,12 +44,14 @@ public class ClientImpl implements Client {
      * @param clientSecret the {@link String} provided by Veryfi.
      * @param username the {@link String} provided by Veryfi.
      * @param apiKey the {@link String} provided by Veryfi.
+     * @param apiVersion the {@link int} api version to use Veryfi.
      */
-    public ClientImpl(String clientId, String clientSecret, String username, String apiKey) {
+    public ClientImpl(String clientId, String clientSecret, String username, String apiKey, int apiVersion) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.username = username;
         this.apiKey = apiKey;
+        this.apiVersion = apiVersion;
         this.httpClient = HttpClient.newHttpClient();
     }
 
@@ -190,8 +195,9 @@ public class ClientImpl implements Client {
      * @return Unique signature generated using the client_secret and the payload
      */
     private String generateSignature(Long timeStamp, JSONObject payloadParams) {
-        payloadParams.put(TIMESTAMP, Long.toString(timeStamp));
-        String payload = payloadParams.toString();
+        JSONObject jsonPayload = new JSONObject(payloadParams.toString());
+        jsonPayload.put(TIMESTAMP, Long.toString(timeStamp));
+        String payload = jsonPayload.toString();
         byte[] secretBytes = clientSecret.getBytes(StandardCharsets.UTF_8);
         byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
         SecretKeySpec keySpec = new SecretKeySpec(secretBytes, SHA256);
@@ -459,23 +465,8 @@ public class ClientImpl implements Client {
     @Override
     public CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters) {
         String endpointName = "/documents/" + documentId + "/";
-        JSONObject requestArguments = new JSONObject();
-        requestArguments.put("id", documentId);
-        for (String key : JSONObject.getNames(parameters)) {
-            requestArguments.put(key, parameters.get(key));
-        }
-        return requestAsync(HttpMethod.PUT, endpointName, requestArguments);
+        return requestAsync(HttpMethod.PUT, endpointName, parameters);
     }
-
-    /**
-     *
-     * @param version of the API by default is 7
-     */
-    @Override
-    public void setAPIVersion(int version) {
-        apiVersion = version;
-    }
-
 
     /**
      * Define new time out for the requests in seconds
