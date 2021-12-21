@@ -195,8 +195,9 @@ public class ClientImpl implements Client {
      * @return Unique signature generated using the client_secret and the payload
      */
     private String generateSignature(Long timeStamp, JSONObject payloadParams) {
-        payloadParams.put(TIMESTAMP, Long.toString(timeStamp));
-        String payload = payloadParams.toString();
+        JSONObject jsonPayload = new JSONObject(payloadParams.toString());
+        jsonPayload.put(TIMESTAMP, Long.toString(timeStamp));
+        String payload = jsonPayload.toString();
         byte[] secretBytes = clientSecret.getBytes(StandardCharsets.UTF_8);
         byte[] payloadBytes = payload.getBytes(StandardCharsets.UTF_8);
         SecretKeySpec keySpec = new SecretKeySpec(secretBytes, SHA256);
@@ -464,12 +465,7 @@ public class ClientImpl implements Client {
     @Override
     public CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters) {
         String endpointName = "/documents/" + documentId + "/";
-        JSONObject requestArguments = new JSONObject();
-        requestArguments.put("id", documentId);
-        for (String key : JSONObject.getNames(parameters)) {
-            requestArguments.put(key, parameters.get(key));
-        }
-        return requestAsync(HttpMethod.PUT, endpointName, requestArguments);
+        return requestAsync(HttpMethod.PUT, endpointName, parameters);
     }
 
     /**
