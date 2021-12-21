@@ -26,6 +26,7 @@ class ClientTest {
     String clientSecret = "your_client_secret";
     String username = "your_username";
     String apiKey = "your_password";
+    String documentUrl = "https://veryfi-testing-public.s3.us-west-2.amazonaws.com/receipt.jpg";
     ClientImpl client = (ClientImpl) VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey);
     boolean mockResponses = true; // Change to “false” if you want to test your personal credential
 
@@ -43,8 +44,8 @@ class ClientTest {
             when(httpResponse.body()).thenReturn(result);
         }
         String jsonResponse = client.getDocuments();
-        JSONArray documents = new JSONArray(jsonResponse);
-        Assertions.assertTrue(documents.length() > 0);
+        JSONObject documents = new JSONObject(jsonResponse);
+        Assertions.assertEquals(documents.length(), 2);
     }
 
     @Test
@@ -90,9 +91,9 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.png", categories, false, null);
+        String jsonResponse = client.processDocument("receipt.jpeg", categories, false, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -111,9 +112,9 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.png", categories, false, parameters);
+        String jsonResponse = client.processDocument("receipt.jpeg", categories, false, parameters);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -129,16 +130,16 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.png", null, false, null);
+        String jsonResponse = client.processDocument("receipt.jpeg", null, false, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void updateDocumentTest() throws IOException, InterruptedException {
         String documentId = "31727276"; // Change to your document Id
         JSONObject parameters = new JSONObject();
-        String notes = "Note updated";
+        String notes = "7sty9nmjcp";
         parameters.put("notes", notes);
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -179,7 +180,7 @@ class ClientTest {
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocumentUrl.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -187,9 +188,9 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null);
+        String jsonResponse = client.processDocumentUrl(documentUrl, null, null, false, 1, false, null, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -197,7 +198,7 @@ class ClientTest {
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocumentUrl.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -207,10 +208,10 @@ class ClientTest {
         }
         JSONObject parameters = new JSONObject();
         parameters.put("p1", "p1value");
-        String jsonResponse = client.processDocumentUrl("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf",
-                Collections.singletonList("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf"), null, false, 1, false, null, parameters);
+        String jsonResponse = client.processDocumentUrl(documentUrl,
+                Collections.singletonList(documentUrl), null, false, 1, false, null, parameters);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -229,8 +230,8 @@ class ClientTest {
         }
         CompletableFuture<String> jsonResponseFuture = client.getDocumentsAsync();
         String jsonResponse  = jsonResponseFuture.get();
-        JSONArray documents = new JSONArray(jsonResponse);
-        Assertions.assertTrue(documents.length() > 0);
+        JSONObject documents = new JSONObject(jsonResponse);
+        Assertions.assertEquals(documents.length(), 2);
     }
 
     @Test
@@ -269,17 +270,17 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("receipt.png", categories, false, null);
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("receipt.jpeg", categories, false, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("The Home Depot", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void updateDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
         String documentId = "31727276"; // Change to your document Id
         JSONObject parameters = new JSONObject();
-        String notes = "Note updated";
+        String notes = "7sty9nmjcp";
         parameters.put("notes", notes);
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -323,7 +324,7 @@ class ClientTest {
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocumentUrl.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("processDocument.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -332,9 +333,24 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        CompletableFuture<String> jsonResponseFuture = client.processDocumentUrlAsync("https://cdn.veryfi.com/receipts/92233902-c94a-491d-a4f9-0d61f9407cd2.pdf", null, null, false, 1, false, null, null);
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentUrlAsync(documentUrl, null, null, false, 1, false, null, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("Rumpke Waste & Recycling", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
+    void testBadCredentials() throws IOException {
+        String clientId = "bad_client_id";
+        String clientSecret = "bad_client_secret";
+        String username = "bad_username";
+        String apiKey = "bad_password";
+        int apiVersion = 7;
+        ClientImpl client = (ClientImpl) VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey, apiVersion);
+        String jsonResponse = client.getDocuments();
+        InputStream fileStream = ClassLoader.getSystemResourceAsStream("badCredentials.json");
+        assert fileStream != null;
+        String result = new String(fileStream.readAllBytes());
+        Assertions.assertEquals(result, jsonResponse);
     }
 }
