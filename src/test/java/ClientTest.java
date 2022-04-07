@@ -32,6 +32,8 @@ class ClientTest {
 
     @Test
     void getDocumentsTest() throws IOException, InterruptedException {
+        client.setTimeOut(200);
+        client.setBaseUrl("https://api.veryfi.com/api/");
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
