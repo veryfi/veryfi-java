@@ -5,6 +5,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -280,7 +281,7 @@ public class ClientImpl implements Client {
         if (categories == null || categories.isEmpty()) {
             categories = LIST_CATEGORIES;
         }
-        String fileName = filePath.replaceAll("^.*[/\\\\]", "");
+        String fileName = Paths.get(filePath).getFileName().toString();
         InputStream fileStream = ClassLoader.getSystemResourceAsStream(filePath);
         String base64EncodedString = "";
         try {
