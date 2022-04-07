@@ -68,24 +68,11 @@ public class ClientImpl implements Client {
      * Submit the HTTP request.
      * @param httpVerb HTTP Method
      * @param endpointName Endpoint name such as 'documents', 'users', etc.
-     * @param requestArguments SON payload to send to Veryfi
+     * @param requestArguments JSON payload to send to Veryfi
      * @return A JSON of the response data.
      */
     private String request(HttpMethod httpVerb, String endpointName, JSONObject requestArguments) {
-        return request(httpVerb, endpointName, requestArguments, false);
-    }
-
-
-    /**
-     * Submit the HTTP request.
-     * @param httpVerb HTTP Method
-     * @param endpointName Endpoint name such as 'documents', 'users', etc.
-     * @param requestArguments JSON payload to send to Veryfi
-     * @param hasFiles true if there are any files to be submitted as binary.
-     * @return A JSON of the response data.
-     */
-    private String request(HttpMethod httpVerb, String endpointName, JSONObject requestArguments, boolean hasFiles) {
-        HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments, hasFiles);
+        HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments);
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
@@ -104,7 +91,7 @@ public class ClientImpl implements Client {
      */
     private CompletableFuture<String> requestAsync(HttpMethod httpVerb, String endpointName,
                                                    JSONObject requestArguments) {
-        HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments, false);
+        HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments);
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body);
     }
 
@@ -113,14 +100,12 @@ public class ClientImpl implements Client {
      * @param httpVerb HTTP Method
      * @param endpointName Endpoint name such as 'documents', 'users', etc.
      * @param requestArguments JSON payload to send to Veryfi
-     * @param hasFiles true if there are any files to be submitted as binary.
      * @return request Object for the HttpClient {@link HttpRequest}
      */
-    private HttpRequest getHttpRequest(HttpMethod httpVerb, String endpointName, JSONObject requestArguments,
-                                       boolean hasFiles) {
+    private HttpRequest getHttpRequest(HttpMethod httpVerb, String endpointName, JSONObject requestArguments) {
         HttpRequest request;
         String apiUrl = getUrl() + "/partner" + endpointName;
-        List<String> headers = getHeaders(hasFiles, requestArguments);
+        List<String> headers = getHeaders(requestArguments);
 
         switch (httpVerb) {
             case DELETE -> request = HttpRequest.newBuilder()
@@ -162,11 +147,10 @@ public class ClientImpl implements Client {
 
     /**
      * Prepares the headers needed for a request.
-     * @param hasFiles true if there are any files to be submitted as binary
      * @param requestArguments JSON payload to send to Veryfi {@link JSONObject}
      * @return List of the headers {@link List<String>}
      */
-    private List<String> getHeaders(boolean hasFiles, JSONObject requestArguments) {
+    private List<String> getHeaders(JSONObject requestArguments) {
         Date date = new Date();
         long timeStamp = date.getTime();
         List<String> headers = new ArrayList<>();
@@ -176,10 +160,6 @@ public class ClientImpl implements Client {
         jsonHeaders.put(CONTENT_TYPE, APPLICATION_JSON);
         jsonHeaders.put(CLIENT_ID, this.clientId);
         jsonHeaders.put(AUTHORIZATION, getApiKey());
-        if (hasFiles) {
-            headers.add(CONTENT_TYPE);
-            headers.add(FORM_URL_ENCODED);
-        }
         jsonHeaders.put(X_VERYFI_REQUEST_TIMESTAMP, String.valueOf(timeStamp));
         jsonHeaders.put(X_VERYFI_REQUEST_SIGNATURE, generateSignature(timeStamp, requestArguments));
         for (String key : JSONObject.getNames(jsonHeaders)) {
