@@ -1,7 +1,9 @@
 package veryfi;
 
 import org.json.JSONObject;
-
+import veryfi.models.AddLineItem;
+import veryfi.models.NotValidModelException;
+import veryfi.models.UpdateLineItem;
 import java.net.http.HttpClient;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -156,16 +158,18 @@ public interface Client {
      * @param documentId ID of the document you'd like to update.
      * @param payload line item object to add.
      * @return Added line item data. {@link String}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
-    String addLineItem(String documentId, JSONObject payload);
+    String addLineItem(String documentId, AddLineItem payload) throws NotValidModelException;
 
     /**
      * Add a new line item on an existing document.
      * @param documentId ID of the document you'd like to update.
      * @param payload line item object to add.
      * @return Added line item data. {@link CompletableFuture<String>}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
-    CompletableFuture<String> addLineItemAsync(String documentId, JSONObject payload);
+    CompletableFuture<String> addLineItemAsync(String documentId, AddLineItem payload) throws NotValidModelException;
 
     /**
      * Update an existing line item on an existing document.
@@ -173,8 +177,9 @@ public interface Client {
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload line item object to update.
      * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link String}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
-    String updateLineItem(String documentId, String lineItemId, JSONObject payload);
+    String updateLineItem(String documentId, String lineItemId, UpdateLineItem payload) throws NotValidModelException;
 
     /**
      * Update an existing line item on an existing document.
@@ -182,8 +187,9 @@ public interface Client {
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload line item object to update.
      * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
-    CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, JSONObject payload);
+    CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, UpdateLineItem payload) throws NotValidModelException;
 
     /**
      * Delete all line items on an existing document.

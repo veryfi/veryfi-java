@@ -1,6 +1,10 @@
 package veryfi;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import veryfi.models.AddLineItem;
+import veryfi.models.NotValidModelException;
+import veryfi.models.UpdateLineItem;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
@@ -504,12 +508,13 @@ public class ClientImpl implements Client {
      * @param documentId ID of the document you'd like to update.
      * @param payload line item object to add.
      * @return Added line item data. {@link String}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     @Override
-    public String addLineItem(String documentId, JSONObject payload) {
+    public String addLineItem(String documentId, @NotNull AddLineItem payload) throws NotValidModelException {
         String endpointName = "/documents" + documentId + "/line-items/";
-        //TODO Check JSON Object
-        return request(HttpMethod.POST, endpointName, payload);
+        JSONObject requestArguments = payload.toJsonObject();
+        return request(HttpMethod.POST, endpointName, requestArguments);
     }
 
     /**
@@ -517,12 +522,13 @@ public class ClientImpl implements Client {
      * @param documentId ID of the document you'd like to update.
      * @param payload line item object to add.
      * @return Added line item data. {@link CompletableFuture<String>}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     @Override
-    public CompletableFuture<String> addLineItemAsync(String documentId, JSONObject payload) {
+    public CompletableFuture<String> addLineItemAsync(String documentId, @NotNull AddLineItem payload) throws NotValidModelException {
         String endpointName = "/documents" + documentId + "/line-items/";
-        //TODO Check JSON Object
-        return requestAsync(HttpMethod.POST, endpointName, payload);
+        JSONObject requestArguments = payload.toJsonObject();
+        return requestAsync(HttpMethod.POST, endpointName, requestArguments);
     }
 
     /**
@@ -531,12 +537,13 @@ public class ClientImpl implements Client {
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload line item object to update.
      * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link String}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     @Override
-    public String updateLineItem(String documentId, String lineItemId, JSONObject payload) {
+    public String updateLineItem(String documentId, String lineItemId, @NotNull UpdateLineItem payload) throws NotValidModelException {
         String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
-        // TODO Check JSON Object
-        return request(HttpMethod.PUT, endpointName, payload);
+        JSONObject requestArguments = payload.toJsonObject();
+        return request(HttpMethod.PUT, endpointName, requestArguments);
     }
 
     /**
@@ -545,12 +552,14 @@ public class ClientImpl implements Client {
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload line item object to update.
      * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     @Override
-    public CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, JSONObject payload) {
+    public CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, @NotNull UpdateLineItem payload) throws NotValidModelException {
         String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
-        // TODO Check JSON Object
-        return requestAsync(HttpMethod.PUT, endpointName, payload);
+        JSONObject requestArguments;
+        requestArguments = payload.toJsonObject();
+        return requestAsync(HttpMethod.PUT, endpointName, requestArguments);
     }
 
     /**
