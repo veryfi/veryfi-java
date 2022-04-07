@@ -450,6 +450,160 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Retrieve all line items for a document.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return List of line items extracted from the document. {@link String}
+     */
+    @Override
+    public String getLineItems(String documentId) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        JSONObject requestArguments = new JSONObject();
+        return request(HttpMethod.GET, endpointName, requestArguments);
+    }
+
+    /**
+     * Retrieve all line items for a document.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return List of line items extracted from the document. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> getLineItemsAsync(String documentId) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        JSONObject requestArguments = new JSONObject();
+        return requestAsync(HttpMethod.GET, endpointName, requestArguments);
+    }
+
+    /**
+     * Retrieve a line item for existing document by ID.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @param lineItemId ID of the line item you'd like to retrieve.
+     * @return Line item extracted from the document. {@link String}
+     */
+    @Override
+    public String getLineItem(String documentId, String lineItemId) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        JSONObject requestArguments = new JSONObject();
+        return request(HttpMethod.GET, endpointName, requestArguments);
+    }
+
+    /**
+     * Retrieve a line item for existing document by ID.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @param lineItemId ID of the line item you'd like to retrieve.
+     * @return Line item extracted from the document. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> getLineItemAsync(String documentId, String lineItemId) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        JSONObject requestArguments = new JSONObject();
+        return requestAsync(HttpMethod.GET, endpointName, requestArguments);
+    }
+
+    /**
+     * Add a new line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param payload line item object to add.
+     * @return Added line item data. {@link String}
+     */
+    @Override
+    public String addLineItem(String documentId, JSONObject payload) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        //TODO Check JSON Object
+        return request(HttpMethod.POST, endpointName, payload);
+    }
+
+    /**
+     * Add a new line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param payload line item object to add.
+     * @return Added line item data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> addLineItemAsync(String documentId, JSONObject payload) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        //TODO Check JSON Object
+        return requestAsync(HttpMethod.POST, endpointName, payload);
+    }
+
+    /**
+     * Update an existing line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param lineItemId ID of the line item you'd like to update.
+     * @param payload line item object to update.
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link String}
+     */
+    @Override
+    public String updateLineItem(String documentId, String lineItemId, JSONObject payload) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        // TODO Check JSON Object
+        return request(HttpMethod.PUT, endpointName, payload);
+    }
+
+    /**
+     * Update an existing line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param lineItemId ID of the line item you'd like to update.
+     * @param payload line item object to update.
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, JSONObject payload) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        // TODO Check JSON Object
+        return requestAsync(HttpMethod.PUT, endpointName, payload);
+    }
+
+    /**
+     * Delete all line items on an existing document.
+     * @param documentId ID of the document you'd like to delete.
+     * @return the response data. {@link String}
+     */
+    @Override
+    public String deleteLineItems(String documentId) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        JSONObject requestArguments = new JSONObject();
+        return request(HttpMethod.DELETE, endpointName, requestArguments);
+    }
+
+    /**
+     * Delete all line items on an existing document.
+     * @param documentId ID of the document you'd like to delete.
+     * @return @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> deleteLineItemsAsync(String documentId) {
+        String endpointName = "/documents" + documentId + "/line-items/";
+        JSONObject requestArguments = new JSONObject();
+        return requestAsync(HttpMethod.DELETE, endpointName, requestArguments);
+    }
+
+    /**
+     * Delete an existing line item on an existing document.
+     * @param documentId  ID of the document you'd like to delete.
+     * @param lineItemId  ID of the line item you'd like to delete.
+     * @return the response data. {@link String}
+     */
+    @Override
+    public String deleteLineItem(String documentId, String lineItemId) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        JSONObject requestArguments = new JSONObject();
+        return request(HttpMethod.DELETE, endpointName, requestArguments);
+    }
+
+    /**
+     * Delete an existing line item on an existing document.
+     * @param documentId  ID of the document you'd like to delete.
+     * @param lineItemId  ID of the line item you'd like to delete.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> deleteLineItemAsync(String documentId, String lineItemId) {
+        String endpointName = "/documents" + documentId + "/line-items/" + lineItemId;
+        JSONObject requestArguments = new JSONObject();
+        return requestAsync(HttpMethod.DELETE, endpointName, requestArguments);
+    }
+
+    /**
      * Define new time out for the requests in seconds
      * @param timeOut of the http requests in seconds
      */

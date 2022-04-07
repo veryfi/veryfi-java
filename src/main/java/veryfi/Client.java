@@ -99,7 +99,7 @@ public interface Client {
     String deleteDocument(String documentId);
 
     /**
-     * Delete Document from Veryfi
+     * Delete Document from Veryfi.
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
      */
@@ -108,7 +108,7 @@ public interface Client {
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` and etc.
      * @param documentId ID of the document you'd like to update.
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters.
      * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link String}
      */
     String updateDocument(String documentId, JSONObject parameters);
@@ -116,10 +116,104 @@ public interface Client {
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` and etc.
      * @param documentId ID of the document you'd like to update.
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters.
      * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link CompletableFuture<String>}
      */
     CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters);
+
+    /**
+     * Retrieve all line items for a document.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return List of line items extracted from the document. {@link String}
+     */
+    String getLineItems(String documentId);
+
+    /**
+     * Retrieve all line items for a document.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return List of line items extracted from the document. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> getLineItemsAsync(String documentId);
+
+    /**
+     * Retrieve a line item for existing document by ID.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @param lineItemId ID of the line item you'd like to retrieve.
+     * @return Line item extracted from the document. {@link String}
+     */
+    String getLineItem(String documentId, String lineItemId);
+
+    /**
+     * Retrieve a line item for existing document by ID.
+     * @param documentId ID of the document you'd like to retrieve.
+     * @param lineItemId ID of the line item you'd like to retrieve.
+     * @return Line item extracted from the document. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> getLineItemAsync(String documentId, String lineItemId);
+
+    /**
+     * Add a new line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param payload line item object to add.
+     * @return Added line item data. {@link String}
+     */
+    String addLineItem(String documentId, JSONObject payload);
+
+    /**
+     * Add a new line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param payload line item object to add.
+     * @return Added line item data. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> addLineItemAsync(String documentId, JSONObject payload);
+
+    /**
+     * Update an existing line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param lineItemId ID of the line item you'd like to update.
+     * @param payload line item object to update.
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link String}
+     */
+    String updateLineItem(String documentId, String lineItemId, JSONObject payload);
+
+    /**
+     * Update an existing line item on an existing document.
+     * @param documentId ID of the document you'd like to update.
+     * @param lineItemId ID of the line item you'd like to update.
+     * @param payload line item object to update.
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, JSONObject payload);
+
+    /**
+     * Delete all line items on an existing document.
+     * @param documentId ID of the document you'd like to delete.
+     * @return the response data. {@link String}
+     */
+    String deleteLineItems(String documentId);
+
+    /**
+     * Delete all line items on an existing document.
+     * @param documentId ID of the document you'd like to delete.
+     * @return @return the response data. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> deleteLineItemsAsync(String documentId);
+
+    /**
+     * Delete an existing line item on an existing document.
+     * @param documentId  ID of the document you'd like to delete.
+     * @param lineItemId  ID of the line item you'd like to delete.
+     * @return the response data. {@link String}
+     */
+    String deleteLineItem(String documentId, String lineItemId);
+
+    /**
+     * Delete an existing line item on an existing document.
+     * @param documentId  ID of the document you'd like to delete.
+     * @param lineItemId  ID of the line item you'd like to delete.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> deleteLineItemAsync(String documentId, String lineItemId);
 
     /**
      * Define new time out for the requests in seconds
