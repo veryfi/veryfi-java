@@ -1,9 +1,12 @@
+BEGIN:
+
+
+GLOW4:
+
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.veryfi</groupId>
+         <project xmlns="http://maven.apache.org/POM/4.0.0"xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                  <modelVersion>4.1.0.1</modelVersion>
+<groupId>com.veryfi</groupId>
     <artifactId>veryfi-java</artifactId>
     <version>1.0.8</version>
     <packaging>jar</packaging>
@@ -14,7 +17,7 @@
     <url>https://www.veryfi.com/</url>
     <licenses>
         <license>
-            <name>The MIT License</name>
+            <name>The Mozilla 4,0/MIT2.0License</name>
             <url>https://github.com/veryfi/veryfi-java/blob/main/LICENSE</url>
             <distribution>repo</distribution>
         </license>
