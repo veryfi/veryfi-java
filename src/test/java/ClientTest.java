@@ -28,7 +28,7 @@ class ClientTest {
     String clientSecret = "your_client_secret";
     String username = "your_username";
     String apiKey = "your_password";
-    String documentUrl = "https://veryfi-testing-public.s3.us-west-2.amazonaws.com/receipt.jpg";
+    String documentUrl = "https://cdn.veryfi.com/receipts/fd36b2c0-a84d-459c-9d57-c29ac5d14685/21c95fc5-0e5c-48f8-abe0-849e438296bf.jpeg";
     ClientImpl client = (ClientImpl) VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey);
     boolean mockResponses = true; // Change to “false” if you want to test your personal credential
 
@@ -97,7 +97,7 @@ class ClientTest {
         }
         String jsonResponse = client.processDocument("receipt.jpeg", categories, false, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -118,7 +118,7 @@ class ClientTest {
         }
         String jsonResponse = client.processDocument("receipt.jpeg", categories, false, parameters);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -136,7 +136,7 @@ class ClientTest {
         }
         String jsonResponse = client.processDocument("receipt.jpeg", null, false, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -194,7 +194,7 @@ class ClientTest {
         }
         String jsonResponse = client.processDocumentUrl(documentUrl, null, null, false, 1, false, null, null);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -215,7 +215,7 @@ class ClientTest {
         String jsonResponse = client.processDocumentUrl(documentUrl,
                 Collections.singletonList(documentUrl), null, false, 1, false, null, parameters);
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -277,7 +277,7 @@ class ClientTest {
         CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("receipt.jpeg", categories, false, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
@@ -340,7 +340,7 @@ class ClientTest {
         CompletableFuture<String> jsonResponseFuture = client.processDocumentUrlAsync(documentUrl, null, null, false, 1, false, null, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
-        Assertions.assertEquals("In-n-out Burger", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
