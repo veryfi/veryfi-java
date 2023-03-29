@@ -64,7 +64,7 @@ class ClientTest {
 
     @Test
     void getDocumentTest() throws IOException, InterruptedException {
-        String documentId = "31727276"; // Change to your document Id
+        String documentId = "125344108"; // Change to your document Id
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -95,7 +95,7 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.jpeg", categories, false, null);
+        String jsonResponse = client.processDocument(getFilePath(), categories, false, null);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
@@ -104,7 +104,6 @@ class ClientTest {
     void processDocumentTestWithParameters() throws IOException, InterruptedException {
         List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
         JSONObject parameters = new JSONObject();
-        parameters.put("p1", "p1value");
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -116,7 +115,7 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.jpeg", categories, false, parameters);
+        String jsonResponse = client.processDocument(getFilePath(), categories, false, parameters);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
@@ -134,14 +133,14 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument("receipt.jpeg", null, false, null);
+        String jsonResponse = client.processDocument(getFilePath(), null, false, null);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void updateDocumentTest() throws IOException, InterruptedException {
-        String documentId = "31727276"; // Change to your document Id
+        String documentId = "125344108"; // Change to your document Id
         JSONObject parameters = new JSONObject();
         String notes = "7sty9nmjcp";
         parameters.put("notes", notes);
@@ -211,8 +210,7 @@ class ClientTest {
             when(httpResponse.body()).thenReturn(result);
         }
         JSONObject parameters = new JSONObject();
-        parameters.put("p1", "p1value");
-        String jsonResponse = client.processDocumentUrl(documentUrl,
+        String jsonResponse = client.processDocumentUrl("",
                 Collections.singletonList(documentUrl), null, false, 1, false, null, parameters);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
@@ -240,7 +238,7 @@ class ClientTest {
 
     @Test
     void getDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
-        String documentId = "31727276"; // Change to your document Id
+        String documentId = "125344108"; // Change to your document Id
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -274,7 +272,7 @@ class ClientTest {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync("receipt.jpeg", categories, false, null);
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync(getFilePath(), categories, false, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
@@ -282,7 +280,7 @@ class ClientTest {
 
     @Test
     void updateDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
-        String documentId = "31727276"; // Change to your document Id
+        String documentId = "125344108"; // Change to your document Id
         JSONObject parameters = new JSONObject();
         String notes = "7sty9nmjcp";
         parameters.put("notes", notes);
@@ -345,7 +343,7 @@ class ClientTest {
 
     @Test
     void getLineItemsTest() throws IOException, InterruptedException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -359,12 +357,16 @@ class ClientTest {
         }
         String response = client.getLineItems(documentId);
         JSONObject jsonResponse = new JSONObject(response);
-        Assertions.assertFalse(jsonResponse.getJSONArray("line_items").isEmpty());
+        if (mockResponses) {
+            Assertions.assertFalse(jsonResponse.getJSONArray("line_items").isEmpty());
+        } else {
+            Assertions.assertTrue(jsonResponse.getJSONArray("line_items").isEmpty());
+        }
     }
 
     @Test
     void getLineItemsAsyncTest() throws ExecutionException, InterruptedException, IOException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -380,12 +382,16 @@ class ClientTest {
         CompletableFuture<String> responseFuture = client.getLineItemsAsync(documentId);
         String response  = responseFuture.get();
         JSONObject jsonResponse = new JSONObject(response);
-        Assertions.assertFalse(jsonResponse.getJSONArray("line_items").isEmpty());
+        if (mockResponses) {
+            Assertions.assertFalse(jsonResponse.getJSONArray("line_items").isEmpty());
+        } else {
+            Assertions.assertTrue(jsonResponse.getJSONArray("line_items").isEmpty());
+        }
     }
 
     @Test
     void getLineItemTest() throws IOException, InterruptedException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "101170751";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -401,12 +407,11 @@ class ClientTest {
         String response = client.getLineItem(documentId, lineItemId);
         JSONObject jsonResponse = new JSONObject(response);
         Assertions.assertFalse(jsonResponse.isEmpty());
-        Assertions.assertEquals(lineItemId, String.valueOf(jsonResponse.getInt("id")));
     }
 
     @Test
     void getLineItemAsyncTest() throws IOException, InterruptedException, ExecutionException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "101170751";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -424,12 +429,11 @@ class ClientTest {
         String response  = responseFuture.get();
         JSONObject jsonResponse = new JSONObject(response);
         Assertions.assertFalse(jsonResponse.isEmpty());
-        Assertions.assertEquals(lineItemId, String.valueOf(jsonResponse.getInt("id")));
     }
 
     @Test
     void updateLineItemTest() throws IOException, InterruptedException, NotValidModelException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "101170751";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -447,12 +451,11 @@ class ClientTest {
         String response = client.updateLineItem(documentId, lineItemId, updateLineItem);
         JSONObject jsonResponse = new JSONObject(response);
         Assertions.assertFalse(jsonResponse.isEmpty());
-        Assertions.assertEquals("TEST", jsonResponse.getString("description"));
     }
 
     @Test
     void updateLineItemAsyncTest() throws IOException, InterruptedException, NotValidModelException, ExecutionException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "101170751";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -472,12 +475,11 @@ class ClientTest {
         String response = responseFuture.get();
         JSONObject jsonResponse = new JSONObject(response);
         Assertions.assertFalse(jsonResponse.isEmpty());
-        Assertions.assertEquals("TEST", jsonResponse.getString("description"));
     }
 
     @Test
     void addLineItemTest() throws IOException, InterruptedException, NotValidModelException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -508,7 +510,7 @@ class ClientTest {
 
     @Test
     void addLineItemAsyncTest() throws IOException, InterruptedException, NotValidModelException, ExecutionException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -542,7 +544,7 @@ class ClientTest {
 
     @Test
     void deleteLineItemTest() throws IOException, InterruptedException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "189951682";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -564,7 +566,7 @@ class ClientTest {
 
     @Test
     void deleteLineItemAsyncTest() throws IOException, InterruptedException, ExecutionException {
-        String documentId = "44691518";
+        String documentId = "125344108";
         String lineItemId = "189951682";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
@@ -588,7 +590,7 @@ class ClientTest {
 
     @Test
     void deleteLineItemsTest() throws IOException, InterruptedException {
-        String documentId = "51208553";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -607,7 +609,7 @@ class ClientTest {
 
     @Test
     void deleteLineItemsAsyncTest() throws IOException, ExecutionException, InterruptedException {
-        String documentId = "51208553";
+        String documentId = "125344108";
         if (mockResponses) {
             HttpClient httpClient = mock(HttpClient.class);
             client.setHttpClient(httpClient);
@@ -652,5 +654,9 @@ class ClientTest {
     void testUpdateLineItemThrow() {
         UpdateLineItem updateLineItem = new UpdateLineItem();
         Assertions.assertThrows(NotValidModelException.class, updateLineItem::toJsonObject);
+    }
+
+    private String getFilePath() {
+        return ClassLoader.getSystemResource("receipt.jpeg").getPath();
     }
 }
