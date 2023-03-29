@@ -7,9 +7,11 @@ import veryfi.models.UpdateLineItem;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -19,6 +21,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -278,12 +281,12 @@ public class ClientImpl implements Client {
         if (categories == null || categories.isEmpty()) {
             categories = LIST_CATEGORIES;
         }
-        String fileName = Paths.get(filePath).getFileName().toString();
-        InputStream fileStream = ClassLoader.getSystemResourceAsStream(filePath);
+        String fileName = filePath.replaceAll("^.*[/\\\\]", "");
+        File file = new File(filePath);
         String base64EncodedString = "";
         try {
-            if (fileStream != null) {
-                base64EncodedString = Base64.getEncoder().encodeToString(fileStream.readAllBytes());
+            if (file != null) {
+                base64EncodedString = Base64.getEncoder().encodeToString(readBytes(file));
             }
         } catch (IOException e) {
             logger.severe(e.getMessage());
@@ -300,6 +303,58 @@ public class ClientImpl implements Client {
             }
         }
         return requestArguments;
+    }
+
+    /*
+     * Function to read the bytes of a file
+     */
+    private byte[] readBytes(File filePath) throws IOException {
+        try (InputStream input = new FileInputStream(filePath)) {
+            int offset = 0;
+            int remaining = (int) filePath.length();
+            if (remaining > Integer.MAX_VALUE) {
+                throw new OutOfMemoryError("File " + filePath + " is too big (" + remaining + " bytes) to fit in memory.");
+            }
+            byte[] result = new byte[remaining];
+            while (remaining > 0) {
+                int read = input.read(result, offset, remaining);
+                if (read < 0) break;
+                remaining -= read;
+                offset += read;
+            }
+            if (remaining > 0) {
+                result = Arrays.copyOf(result, offset);
+            }
+    
+            int extraByte = input.read();
+            if (extraByte == -1) {
+                return result;
+            }
+    
+            int DEFAULT_BUFFER_SIZE = 8192;
+            ExposingBufferByteArrayOutputStream extra = new ExposingBufferByteArrayOutputStream(DEFAULT_BUFFER_SIZE + 1);
+            extra.write(extraByte);
+            input.transferTo(extra);
+    
+            int resultingSize = result.length + extra.size();
+            if (resultingSize < 0) {
+                throw new OutOfMemoryError("File " + filePath + " is too big to fit in memory.");
+            }
+    
+            byte[] resultadoFinal = Arrays.copyOf(result, resultingSize);
+            System.arraycopy(extra.buffer(), 0, resultadoFinal, result.length, extra.size());
+            return resultadoFinal;
+        }
+    }
+
+    private class ExposingBufferByteArrayOutputStream extends ByteArrayOutputStream {
+        private ExposingBufferByteArrayOutputStream(int size) {
+            super(size);
+        }
+    
+        public byte[] buffer() {
+            return buf;
+        }
     }
 
     /**
