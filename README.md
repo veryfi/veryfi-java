@@ -13,15 +13,18 @@ Install from [Maven](https://mvnrepository.com/), a
 package manager for Java.
 
 
-Install the package from Maven:
+Install the package using Maven:
 ```bash
  <dependency>
      <groupId>com.veryfi</groupId>
      <artifactId>veryfi-java</artifactId>
-     <version>1.0.8</version>
+     <version>1.0.9</version>
  </dependency>
 ```
-You may need to run the above commands with `sudo`.
+Install the package using Gradle:
+```bash
+implementation group: 'com.veryfi', name: 'veryfi-java', version: '1.0.9'
+```
 
 ## Getting Started
 
