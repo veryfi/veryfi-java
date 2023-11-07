@@ -77,6 +77,9 @@ public class Main {
 
 
 ## Need help?
+
+Visit https://docs.veryfi.com/ to access integration guides and usage notes in the Veryfi API Documentation Portal
+
 If you run into any issue or need help installing or using the library, please contact support@veryfi.com.
 
 If you found a bug in this library or would like new features added, then open an issue or pull requests against this repo!
