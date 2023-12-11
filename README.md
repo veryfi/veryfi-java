@@ -23,7 +23,7 @@ Install the package using Maven:
 ```
 Install the package using Gradle:
 ```bash
-implementation group: 'com.veryfi', name: 'veryfi-java', version: '1.0.9'
+implementation group: 'com.veryfi', name: 'veryfi-java', version: '1.0.10'
 ```
 
 ## Getting Started
