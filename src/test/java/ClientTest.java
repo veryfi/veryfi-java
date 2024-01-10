@@ -546,46 +546,38 @@ class ClientTest {
     void deleteLineItemTest() throws IOException, InterruptedException {
         String documentId = "125344108";
         String lineItemId = "189951682";
-        if (mockResponses) {
-            HttpClient httpClient = mock(HttpClient.class);
-            client.setHttpClient(httpClient);
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteLineItem.json");
-            assert fileStream != null;
-            String result = new String(fileStream.readAllBytes());
-            HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
-            when(httpResponse.statusCode()).thenReturn(200);
-            when(httpResponse.body()).thenReturn(result);
-            String response = client.deleteLineItem(documentId, lineItemId);
-            JSONObject jsonResponse = new JSONObject(response);
-            Assertions.assertEquals("ok", jsonResponse.getString("status"));
-        } else {
-            Assertions.assertTrue(true); // Tested before.
-        }
+        HttpClient httpClient = mock(HttpClient.class);
+        client.setHttpClient(httpClient);
+        InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteLineItem.json");
+        assert fileStream != null;
+        String result = new String(fileStream.readAllBytes());
+        HttpResponse<String> httpResponse = mock(HttpResponse.class);
+        when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+        when(httpResponse.statusCode()).thenReturn(200);
+        when(httpResponse.body()).thenReturn(result);
+        String response = client.deleteLineItem(documentId, lineItemId);
+        JSONObject jsonResponse = new JSONObject(response);
+        Assertions.assertEquals("ok", jsonResponse.getString("status"));
     }
 
     @Test
     void deleteLineItemAsyncTest() throws IOException, InterruptedException, ExecutionException {
         String documentId = "125344108";
         String lineItemId = "189951682";
-        if (mockResponses) {
-            HttpClient httpClient = mock(HttpClient.class);
-            client.setHttpClient(httpClient);
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteLineItem.json");
-            assert fileStream != null;
-            String result = new String(fileStream.readAllBytes());
-            HttpResponse<String> httpResponse = mock(HttpResponse.class);
-            CompletableFuture<HttpResponse<String>> jsonResponseFutureMock = CompletableFuture.completedFuture(httpResponse);
-            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFutureMock);
-            when(httpResponse.statusCode()).thenReturn(200);
-            when(httpResponse.body()).thenReturn(result);
-            CompletableFuture<String> jsonResponseFuture = client.deleteLineItemAsync(documentId, lineItemId);
-            String jsonResponse = jsonResponseFuture.get();
-            JSONObject deleteResponse = new JSONObject(jsonResponse);
-            Assertions.assertEquals("ok", deleteResponse.getString("status"));
-        } else {
-            Assertions.assertTrue(true); // Tested before.
-        }
+        HttpClient httpClient = mock(HttpClient.class);
+        client.setHttpClient(httpClient);
+        InputStream fileStream = ClassLoader.getSystemResourceAsStream("deleteLineItem.json");
+        assert fileStream != null;
+        String result = new String(fileStream.readAllBytes());
+        HttpResponse<String> httpResponse = mock(HttpResponse.class);
+        CompletableFuture<HttpResponse<String>> jsonResponseFutureMock = CompletableFuture.completedFuture(httpResponse);
+        when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFutureMock);
+        when(httpResponse.statusCode()).thenReturn(200);
+        when(httpResponse.body()).thenReturn(result);
+        CompletableFuture<String> jsonResponseFuture = client.deleteLineItemAsync(documentId, lineItemId);
+        String jsonResponse = jsonResponseFuture.get();
+        JSONObject deleteResponse = new JSONObject(jsonResponse);
+        Assertions.assertEquals("ok", deleteResponse.getString("status"));
     }
 
     @Test
@@ -623,6 +615,82 @@ class ClientTest {
             when(httpResponse.body()).thenReturn(result);
         }
         CompletableFuture<String> responseFuture = client.deleteLineItemsAsync(documentId);
+        String response = responseFuture.get();
+        JSONObject jsonResponse = new JSONObject(response);
+        Assertions.assertEquals("ok", jsonResponse.getString("status"));
+    }
+
+    @Test
+    void replaceTagsTest() throws IOException, InterruptedException {
+        String documentId = "125344108";
+        HttpClient httpClient = mock(HttpClient.class);
+        client.setHttpClient(httpClient);
+        InputStream fileStream = ClassLoader.getSystemResourceAsStream("replaceTags.json");
+        assert fileStream != null;
+        String result = new String(fileStream.readAllBytes());
+        HttpResponse<String> httpResponse = mock(HttpResponse.class);
+        when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+        when(httpResponse.statusCode()).thenReturn(200);
+        when(httpResponse.body()).thenReturn(result);
+        String response = client.replaceTags(documentId, List.of("TAG1", "TAG2", "TAG3"));
+        JSONObject jsonResponse = new JSONObject(response);
+        Assertions.assertEquals("ok", jsonResponse.getString("status"));
+    }
+
+    @Test
+    void replaceTagsAsyncTest() throws IOException, ExecutionException, InterruptedException {
+        String documentId = "125344108";
+        if (mockResponses) {
+            HttpClient httpClient = mock(HttpClient.class);
+            client.setHttpClient(httpClient);
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("replaceTags.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFutureMock = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFutureMock);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> responseFuture = client.replaceTagsAsync(documentId, List.of("TAG1", "TAG2", "TAG3"));
+        String response = responseFuture.get();
+        JSONObject jsonResponse = new JSONObject(response);
+        Assertions.assertEquals("ok", jsonResponse.getString("status"));
+    }
+
+    @Test
+    void addTagsTest() throws IOException, InterruptedException {
+        String documentId = "125344108";
+        HttpClient httpClient = mock(HttpClient.class);
+        client.setHttpClient(httpClient);
+        InputStream fileStream = ClassLoader.getSystemResourceAsStream("addTags.json");
+        assert fileStream != null;
+        String result = new String(fileStream.readAllBytes());
+        HttpResponse<String> httpResponse = mock(HttpResponse.class);
+        when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+        when(httpResponse.statusCode()).thenReturn(200);
+        when(httpResponse.body()).thenReturn(result);
+        String response = client.addTags(documentId, List.of("TAG1", "TAG2", "TAG3"));
+        JSONObject jsonResponse = new JSONObject(response);
+        Assertions.assertEquals("ok", jsonResponse.getString("status"));
+    }
+
+    @Test
+    void addTagsAsyncTest() throws IOException, ExecutionException, InterruptedException {
+        String documentId = "125344108";
+        if (mockResponses) {
+            HttpClient httpClient = mock(HttpClient.class);
+            client.setHttpClient(httpClient);
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("addTags.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFutureMock = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFutureMock);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> responseFuture = client.addTagsAsync(documentId, List.of("TAG1", "TAG2", "TAG3"));
         String response = responseFuture.get();
         JSONObject jsonResponse = new JSONObject(response);
         Assertions.assertEquals("ok", jsonResponse.getString("status"));

@@ -222,6 +222,38 @@ public interface Client {
     CompletableFuture<String> deleteLineItemAsync(String documentId, String lineItemId);
 
     /**
+     * Replace multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link String}
+     */
+    String replaceTags(String documentId, List<String> tags);
+
+    /**
+     * Replace multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> replaceTagsAsync(String documentId, List<String> tags);
+
+    /**
+     * Add multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link String}
+     */
+    String addTags(String documentId, List<String> tags);
+
+    /**
+     * Add multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> addTagsAsync(String documentId, List<String> tags);
+
+    /**
      * Define new time out for the requests in seconds
      * @param timeOut of the http requests in seconds
      */

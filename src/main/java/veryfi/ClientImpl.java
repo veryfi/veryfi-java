@@ -1,5 +1,6 @@
 package veryfi;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import veryfi.models.AddLineItem;
 import veryfi.models.NotValidModelException;
@@ -699,6 +700,66 @@ public class ClientImpl implements Client {
         String endpointName = "/documents/" + documentId + "/line-items/" + lineItemId;
         JSONObject requestArguments = new JSONObject();
         return requestAsync(HttpMethod.DELETE, endpointName, requestArguments);
+    }
+
+    /**
+     * Replace multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public String replaceTags(String documentId, List<String> tags) {
+        String endpointName = "/documents/" + documentId + "/";
+        JSONObject requestArguments = new JSONObject();
+        JSONArray jsonArrayTags = new JSONArray(tags);
+        requestArguments.put("tags", jsonArrayTags);
+        return request(HttpMethod.PUT, endpointName, requestArguments);
+    }
+
+    /**
+     * Replace multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> replaceTagsAsync(String documentId, List<String> tags) {
+        String endpointName = "/documents/" + documentId + "/";
+        JSONObject requestArguments = new JSONObject();
+        JSONArray jsonArrayTags = new JSONArray(tags);
+        requestArguments.put("tags", jsonArrayTags);
+        return requestAsync(HttpMethod.PUT, endpointName, requestArguments);
+    }
+
+    /**
+     * Add multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public String addTags(String documentId, List<String> tags) {
+        String endpointName = "/documents/" + documentId + "/tags/";
+        JSONObject requestArguments = new JSONObject();
+        JSONArray jsonArrayTags = new JSONArray(tags);
+        requestArguments.put("tags", jsonArrayTags);
+        return request(HttpMethod.POST, endpointName, requestArguments);
+    }
+
+    /**
+     * Add multiple tags on an existing document.
+     * @param documentId  ID of the document you'd like to update.
+     * @param tags  tags array of tags to be added.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> addTagsAsync(String documentId, List<String> tags) {
+        String endpointName = "/documents/" + documentId + "/tags/";
+        JSONObject requestArguments = new JSONObject();
+        JSONArray jsonArrayTags = new JSONArray(tags);
+        requestArguments.put("tags", jsonArrayTags);
+        return requestAsync(HttpMethod.POST, endpointName, requestArguments);
     }
 
     /**

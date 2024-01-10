@@ -18,12 +18,12 @@ Install the package using Maven:
  <dependency>
      <groupId>com.veryfi</groupId>
      <artifactId>veryfi-java</artifactId>
-     <version>1.0.9</version>
+     <version>1.0.11</version>
  </dependency>
 ```
 Install the package using Gradle:
 ```bash
-implementation group: 'com.veryfi', name: 'veryfi-java', version: '1.0.10'
+implementation group: 'com.veryfi', name: 'veryfi-java', version: '1.0.11'
 ```
 
 ## Getting Started
