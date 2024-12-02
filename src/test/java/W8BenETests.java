@@ -40,7 +40,7 @@ class W8BenETests {
     @Test
     void getW8BenEsTest() throws IOException, InterruptedException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/getW8BenEs.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/getW8benes.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -57,7 +57,7 @@ class W8BenETests {
     void getW8BenETest() throws IOException, InterruptedException {
         String documentId = "4662698"; // Change to your document Id
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -73,7 +73,7 @@ class W8BenETests {
     @Test
     void processW8BenETest() throws IOException, InterruptedException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -89,7 +89,7 @@ class W8BenETests {
     @Test
     void processW8BenEUrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -105,7 +105,7 @@ class W8BenETests {
     @Test
     void processW8BenEUrlTestWithFileUrlsAndParameters() throws IOException, InterruptedException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -122,7 +122,7 @@ class W8BenETests {
     @Test
     void getW8BenEsAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/getW8BenEs.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/getW8benes.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -141,7 +141,7 @@ class W8BenETests {
     void getW8BenEAsyncTest() throws ExecutionException, InterruptedException, IOException {
         String documentId = "4662698"; // Change to your document Id
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -159,7 +159,7 @@ class W8BenETests {
     @Test
     void processW8BenEAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -177,7 +177,7 @@ class W8BenETests {
     @Test
     void processW8BenEUrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
@@ -195,7 +195,7 @@ class W8BenETests {
     @Test
     void processW8BenEUrlAsyncTestWithFileUrlsAndParameters() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
-            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8BenE.json");
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
             assert fileStream != null;
             String result = new String(fileStream.readAllBytes());
             HttpResponse<String> httpResponse = mock(HttpResponse.class);
