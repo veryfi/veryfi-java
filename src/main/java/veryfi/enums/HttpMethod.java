@@ -1,4 +1,4 @@
-package veryfi;
+package veryfi.enums;
 
 /**
  * Enum constants for Http methods.
