@@ -21,7 +21,7 @@ public final class Constants {
     /**
      * header for HttpRequest
      */
-    public static final String USER_AGENT_JAVA = "Java Veryfi-Java/1.0.12";
+    public static final String USER_AGENT_JAVA = "Java Veryfi-Java/2.0.0";
     /**
      * header for HttpRequest
      */
