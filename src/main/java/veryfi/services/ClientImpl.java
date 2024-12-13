@@ -26,6 +26,7 @@ public class ClientImpl implements Client {
     private final W2Services w2Services;
     private final W9Services w9Services;
     private final W8BenEServices w8BenEServices;
+    private final ContractServices contractServices;
 
     /**
      * Creates an instance of {@link ClientImpl}.
@@ -48,6 +49,7 @@ public class ClientImpl implements Client {
         w2Services = new W2Services(credentials, apiVersion);
         w9Services = new W9Services(credentials, apiVersion);
         w8BenEServices = new W8BenEServices(credentials, apiVersion);
+        contractServices = new ContractServices(credentials, apiVersion);
     }
 
     /**
@@ -72,30 +74,41 @@ public class ClientImpl implements Client {
         w2Services = new W2Services(credentials, apiVersion, httpClient);
         w9Services = new W9Services(credentials, apiVersion, httpClient);
         w8BenEServices = new W8BenEServices(credentials, apiVersion, httpClient);
+        contractServices = new ContractServices(credentials, apiVersion, httpClient);
     }
 
     /**
-     * Returns a json string {@link String} with the list of documents.
+     * Returns a json string {@link String} with the list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
      * @return the url {@link String}
      */
     @Override
-    public String getDocuments() {
-        return documentServices.getDocuments();
+    public String getDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return documentServices.getDocuments(page, pageSize, boundingBoxes, confidenceDetails, parameters);
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of documents.
+     * Returns a json string {@link CompletableFuture<String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
      * @return the list of previously processed documents {@link String}
      */
     @Override
-    public CompletableFuture<String> getDocumentsAsync() {
-        return documentServices.getDocumentsAsync();
+    public CompletableFuture<String> getDocumentsAsync(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return documentServices.getDocumentsAsync(page, pageSize, boundingBoxes, confidenceDetails, parameters);
     }
 
     /**
-     * Returns a json string {@link String} document information
+     * Returns a json string {@link String} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return the data extracted from the Document {@link String}
@@ -106,7 +119,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} document information.
+     * Returns a json string {@link CompletableFuture<String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return the data extracted from the Document {@link String}
@@ -117,7 +130,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a document and extract all the fields from it
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param filePath              Path on disk to a file to submit for data extraction
      * @param categories            List of categories Veryfi can use to categorize the document
@@ -132,7 +145,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a document and extract all the fields from it
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param filePath              Path on disk to a file to submit for data extraction
      * @param categories            List of categories Veryfi can use to categorize the document
@@ -147,7 +160,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process Document from url and extract all the fields from it.
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -169,7 +182,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process Document from url and extract all the fields from it.
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -191,7 +204,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete Document from Veryfi
+     * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link String}
@@ -202,7 +215,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete Document from Veryfi
+     * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -214,7 +227,7 @@ public class ClientImpl implements Client {
 
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
-     *
+     * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
      * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link String}
@@ -226,7 +239,7 @@ public class ClientImpl implements Client {
 
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
-     *
+     * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
      * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link CompletableFuture<String>}
@@ -237,7 +250,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Retrieve all line items for a document.
+     * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return List of line items extracted from the document. {@link String}
@@ -248,7 +261,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Retrieve all line items for a document.
+     * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return List of line items extracted from the document. {@link CompletableFuture<String>}
@@ -259,7 +272,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Retrieve a line item for existing document by ID.
+     * Retrieve a line item for existing document by ID. https://docs.veryfi.com/api/receipts-invoices/get-a-line-item/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
@@ -271,7 +284,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Retrieve a line item for existing document by ID.
+     * Retrieve a line item for existing document by ID. https://docs.veryfi.com/api/receipts-invoices/get-a-line-item/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
@@ -283,7 +296,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Add a new line item on an existing document.
+     * Add a new line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/create-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param payload    line item object to add.
@@ -296,7 +309,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Add a new line item on an existing document.
+     * Add a new line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/create-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param payload    line item object to add.
@@ -309,7 +322,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Update an existing line item on an existing document.
+     * Update an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/update-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
@@ -323,7 +336,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Update an existing line item on an existing document.
+     * Update an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/update-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
@@ -337,7 +350,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete all line items on an existing document.
+     * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link String}
@@ -348,7 +361,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete all line items on an existing document.
+     * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return @return the response data. {@link CompletableFuture<String>}
@@ -359,7 +372,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete an existing line item on an existing document.
+     * Delete an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-a-line-item/
      *
      * @param documentId ID of the document you'd like to delete.
      * @param lineItemId ID of the line item you'd like to delete.
@@ -371,7 +384,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete an existing line item on an existing document.
+     * Delete an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-a-line-item/
      *
      * @param documentId ID of the document you'd like to delete.
      * @param lineItemId ID of the line item you'd like to delete.
@@ -383,7 +396,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Replace multiple tags on an existing document.
+     * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -394,7 +407,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Replace multiple tags on an existing document.
+     * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -405,7 +418,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Add multiple tags on an existing document.
+     * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -416,7 +429,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Add multiple tags on an existing document.
+     * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -427,7 +440,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Any Documents.
+     * Returns a json string {@link String} with the list of Any Documents. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -441,7 +454,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of AnyDocuments.
+     * Returns a json string {@link CompletableFuture<String>} list of AnyDocuments. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -455,7 +468,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} AnyDocument information
+     * Returns a json string {@link String} AnyDocument information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to retrieve.
      * @return the data extracted from the AnyDocument {@link String}
@@ -465,7 +478,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} AnyDocument information.
+     * Returns a json string {@link CompletableFuture<String>} AnyDocument information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to retrieve.
      * @return the data extracted from the AnyDocument {@link String}
@@ -475,7 +488,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a AnyDocument and extract all the fields from it
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
@@ -487,7 +500,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a AnyDocument and extract all the fields from it
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
@@ -499,7 +512,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process AnyDocument from url and extract all the fields from it.
+     * Process AnyDocument from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -512,7 +525,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process AnyDocument from url and extract all the fields from it.
+     * Process AnyDocument from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -525,7 +538,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete AnyDocument from Veryfi
+     * Delete AnyDocument from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to delete.
      * @return the response data. {@link String}
@@ -535,7 +548,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete AnyDocument from Veryfi
+     * Delete AnyDocument from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -545,7 +558,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Bank Statements.
+     * Returns a json string {@link String} with the list of Bank Statements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -559,7 +572,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of BankStatements.
+     * Returns a json string {@link CompletableFuture<String>} list of BankStatements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -573,7 +586,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} BankStatement information
+     * Returns a json string {@link String} BankStatement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the BankStatement you'd like to retrieve.
      * @return the data extracted from the BankStatement {@link String}
@@ -583,7 +596,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} BankStatement information.
+     * Returns a json string {@link CompletableFuture<String>} BankStatement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the BankStatement you'd like to retrieve.
      * @return the data extracted from the BankStatement {@link String}
@@ -593,7 +606,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it
+     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -604,7 +617,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it
+     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -615,7 +628,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process BankStatement from url and extract all the fields from it.
+     * Process BankStatement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -627,7 +640,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process BankStatement from url and extract all the fields from it.
+     * Process BankStatement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -639,7 +652,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete BankStatement from Veryfi
+     * Delete BankStatement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the BankStatement you'd like to delete.
      * @return the response data. {@link String}
@@ -649,7 +662,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete BankStatement from Veryfi
+     * Delete BankStatement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the BankStatement you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -659,7 +672,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Business Cards.
+     * Returns a json string {@link String} with the list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -673,89 +686,89 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of BusinessCards.
+     * Returns a json string {@link CompletableFuture<String>} list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
      * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
      * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
      * @param parameters Additional request parameters.
-     * @return the list of previously processed BusinessCards {@link String}
+     * @return the list of previously processed Business Cards {@link String}
      */
     public CompletableFuture<String> getBusinessCardsAsync(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
         return businessCardsServices.getBusinessCardsAsync(page, pageSize, boundingBoxes, confidenceDetails, parameters);
     }
 
     /**
-     * Returns a json string {@link String} BusinessCard information
+     * Returns a json string {@link String} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
      *
-     * @param documentId ID of the BusinessCard you'd like to retrieve.
-     * @return the data extracted from the BusinessCard {@link String}
+     * @param documentId ID of the Business Card you'd like to retrieve.
+     * @return the data extracted from the Business Card {@link String}
      */
     public String getBusinessCard(String documentId) {
         return businessCardsServices.getBusinessCard(documentId);
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} BusinessCard information.
+     * Returns a json string {@link CompletableFuture<String>} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
      *
-     * @param documentId ID of the BusinessCard you'd like to retrieve.
-     * @return the data extracted from the BusinessCard {@link String}
+     * @param documentId ID of the Business Card you'd like to retrieve.
+     * @return the data extracted from the Business Card {@link String}
      */
     public CompletableFuture<String> getBusinessCardAsync(String documentId) {
         return businessCardsServices.getBusinessCardAsync(documentId);
     }
 
     /**
-     * Process a BusinessCard and extract all the fields from it
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BusinessCard {@link String}
+     * @return the data extracted from the Business Card {@link String}
      */
     public String processBusinessCard(String filePath, JSONObject parameters) {
         return businessCardsServices.processBusinessCard(filePath, parameters);
     }
 
     /**
-     * Process a BusinessCard and extract all the fields from it
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BusinessCard {@link CompletableFuture<String>}
+     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> processBusinessCardAsync(String filePath, JSONObject parameters) {
         return businessCardsServices.processBusinessCardAsync(filePath, parameters);
     }
 
     /**
-     * Process BusinessCard from url and extract all the fields from it.
+     * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the BusinessCard {@link String}
+     * @return the data extracted from the Business Card {@link String}
      */
     public String processBusinessCardUrl(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         return businessCardsServices.processBusinessCardUrl(fileUrl, fileUrls, parameters);
     }
 
     /**
-     * Process BusinessCard from url and extract all the fields from it.
+     * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the BusinessCard {@link CompletableFuture<String>}
+     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> processBusinessCardUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         return businessCardsServices.processBusinessCardUrlAsync(fileUrl, fileUrls, parameters);
     }
 
     /**
-     * Delete BusinessCard from Veryfi
+     * Delete Business Card from Veryfi. https://docs.veryfi.com/api/business-cards/delete-a-business-card/
      *
-     * @param documentId ID of the BusinessCard you'd like to delete.
+     * @param documentId ID of the Business Card you'd like to delete.
      * @return the response data. {@link String}
      */
     public String deleteBusinessCard(String documentId) {
@@ -763,9 +776,9 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete BusinessCard from Veryfi
+     * Delete Business Card from Veryfi. https://docs.veryfi.com/api/business-cards/delete-a-business-card/
      *
-     * @param documentId ID of the BusinessCard you'd like to delete.
+     * @param documentId ID of the Business Card you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> deleteBusinessCardAsync(String documentId) {
@@ -773,7 +786,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Checks.
+     * Returns a json string {@link String} with the list of Checks. https://docs.veryfi.com/api/checks/get-checks/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -787,7 +800,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Checks.
+     * Returns a json string {@link CompletableFuture<String>} list of Checks. https://docs.veryfi.com/api/checks/get-checks/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -801,7 +814,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} Check information
+     * Returns a json string {@link String} Check information. https://docs.veryfi.com/api/checks/get-a-check/
      *
      * @param documentId ID of the Check you'd like to retrieve.
      * @return the data extracted from the Check {@link String}
@@ -811,7 +824,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Check information.
+     * Returns a json string {@link CompletableFuture<String>} Check information. https://docs.veryfi.com/api/checks/get-a-check/
      *
      * @param documentId ID of the Check you'd like to retrieve.
      * @return the data extracted from the Check {@link String}
@@ -821,7 +834,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a Check and extract all the fields from it
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -832,7 +845,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a Check and extract all the fields from it
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -843,7 +856,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process Check from url and extract all the fields from it.
+     * Process Check from url and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -855,7 +868,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process Check from url and extract all the fields from it.
+     * Process Check from url and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -867,7 +880,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete Check from Veryfi
+     * Delete Check from Veryfi. https://docs.veryfi.com/api/checks/delete-a-check/
      *
      * @param documentId ID of the Check you'd like to delete.
      * @return the response data. {@link String}
@@ -877,7 +890,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete Check from Veryfi
+     * Delete Check from Veryfi. https://docs.veryfi.com/api/checks/delete-a-check/
      *
      * @param documentId ID of the Check you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -887,7 +900,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W2s.
+     * Returns a json string {@link String} with the list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -901,7 +914,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W2s.
+     * Returns a json string {@link CompletableFuture<String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -915,7 +928,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} W2 information
+     * Returns a json string {@link String} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -925,7 +938,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W2 information.
+     * Returns a json string {@link CompletableFuture<String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -935,7 +948,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W2 and extract all the fields from it
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -946,7 +959,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W2 and extract all the fields from it
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -957,7 +970,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W2 from url and extract all the fields from it.
+     * Process W2 from url and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -969,7 +982,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W2 from url and extract all the fields from it.
+     * Process W2 from url and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -981,7 +994,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W2 from Veryfi
+     * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
      * @return the response data. {@link String}
@@ -991,7 +1004,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W2 from Veryfi
+     * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -1001,7 +1014,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W-8BEN-E.
+     * Returns a json string {@link String} with the list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -1015,7 +1028,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W-8BEN-E.
+     * Returns a json string {@link CompletableFuture<String>} list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -1029,7 +1042,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} W-8BEN-E information
+     * Returns a json string {@link String} W-8BEN-E information. https://docs.veryfi.com/api/w-8ben-e/get-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to retrieve.
      * @return the data extracted from the W-8BEN-E {@link String}
@@ -1039,7 +1052,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W-8BEN-E information.
+     * Returns a json string {@link CompletableFuture<String>} W-8BEN-E information. https://docs.veryfi.com/api/w-8ben-e/get-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to retrieve.
      * @return the data extracted from the W-8BEN-E {@link String}
@@ -1049,7 +1062,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W-8BEN-E and extract all the fields from it
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -1060,7 +1073,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W-8BEN-E and extract all the fields from it
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -1071,7 +1084,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W-8BEN-E from url and extract all the fields from it.
+     * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -1083,7 +1096,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W-8BEN-E from url and extract all the fields from it.
+     * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -1095,7 +1108,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W-8BEN-E from Veryfi
+     * Delete W-8BEN-E from Veryfi. https://docs.veryfi.com/api/w-8ben-e/delete-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to delete.
      * @return the response data. {@link String}
@@ -1105,7 +1118,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W-8BEN-E from Veryfi
+     * Delete W-8BEN-E from Veryfi. https://docs.veryfi.com/api/w-8ben-e/delete-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -1115,7 +1128,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W9s.
+     * Returns a json string {@link String} with the list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -1129,7 +1142,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W9s.
+     * Returns a json string {@link CompletableFuture<String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -1143,7 +1156,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link String} W9 information
+     * Returns a json string {@link String} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -1153,7 +1166,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W9 information.
+     * Returns a json string {@link CompletableFuture<String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -1163,7 +1176,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W9 and extract all the fields from it
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -1174,7 +1187,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a W9 and extract all the fields from it
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -1185,7 +1198,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W9 from url and extract all the fields from it.
+     * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -1197,7 +1210,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process W9 from url and extract all the fields from it.
+     * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -1209,7 +1222,7 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W9 from Veryfi
+     * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
      * @return the response data. {@link String}
@@ -1219,13 +1232,121 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Delete W9 from Veryfi
+     * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> deleteW9Async(String documentId) {
         return w9Services.deleteW9Async(documentId);
+    }
+
+    /**
+     * Returns a json string {@link String} with the list of Contracts.
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param parameters Additional request parameters.
+     * @return the url {@link String}
+     */
+    public String getContracts(int page, int pageSize, JSONObject parameters) {
+        return contractServices.getContracts(page, pageSize, parameters);
+    }
+
+    /**
+     * Returns a json string {@link CompletableFuture<String>} list of Contracts.
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param parameters Additional request parameters.
+     * @return the list of previously processed Contracts {@link String}
+     */
+    public CompletableFuture<String> getContractsAsync(int page, int pageSize, JSONObject parameters) {
+        return contractServices.getContractsAsync(page, pageSize, parameters);
+    }
+
+    /**
+     * Returns a json string {@link String} with the Contract information.
+     *
+     * @param documentId ID of the Contract you'd like to retrieve.
+     * @return the data extracted from the Contract {@link String}
+     */
+    public String getContract(String documentId) {
+        return contractServices.getContract(documentId);
+    }
+
+    /**
+     * Returns a json string {@link CompletableFuture<String>} with the Contract information.
+     *
+     * @param documentId ID of the Contract you'd like to retrieve.
+     * @return the data extracted from the Contract {@link String}
+     */
+    public CompletableFuture<String> getContractAsync(String documentId) {
+        return contractServices.getContractAsync(documentId);
+    }
+
+    /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Contract {@link String}
+     */
+    public String processContract(String filePath, JSONObject parameters) {
+        return contractServices.processContract(filePath, parameters);
+    }
+
+    /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processContractAsync(String filePath, JSONObject parameters) {
+        return contractServices.processContractAsync(filePath, parameters);
+    }
+
+    /**
+     * Process Contract from url and extract all the fields from it.
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link String}
+     */
+    public String processContractUrl(String fileUrl, JSONObject parameters) {
+        return contractServices.processContractUrl(fileUrl, parameters);
+    }
+
+    /**
+     * Process Contract from url and extract all the fields from it.
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processContractUrlAsync(String fileUrl, JSONObject parameters) {
+        return contractServices.processContractUrlAsync(fileUrl, parameters);
+    }
+
+    /**
+     * Delete a Contract from Veryfi.
+     *
+     * @param documentId ID of the Contract you'd like to delete.
+     * @return the response data. {@link String}
+     */
+    public String deleteContract(String documentId) {
+        return contractServices.deleteContract(documentId);
+    }
+
+    /**
+     * Delete a Contract from Veryfi.
+     *
+     * @param documentId ID of the Contract you'd like to delete.
+     * @return the response data. {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> deleteContractAsync(String documentId) {
+        return contractServices.deleteContractAsync(documentId);
     }
 
 }

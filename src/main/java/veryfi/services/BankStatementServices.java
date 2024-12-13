@@ -37,7 +37,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Bank Statements.
+     * Returns a json string {@link String} with the list of Bank Statements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Bank Statements.
+     * Returns a json string {@link CompletableFuture<String>} list of Bank Statements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} Bank Statement information
+     * Returns a json string {@link String} Bank Statement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to retrieve.
      * @return the data extracted from the Bank Statement {@link String}
@@ -90,7 +90,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Bank Statement information.
+     * Returns a json string {@link CompletableFuture<String>} Bank Statement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to retrieve.
      * @return the data extracted from the Bank Statement {@link String}
@@ -103,7 +103,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Process a Bank Statement and extract all the fields from it
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
       * @param parameters    Additional request parameters.
@@ -115,7 +115,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Process a Bank Statement and extract all the fields from it
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -127,7 +127,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Process Bank Statement from url and extract all the fields from it.
+     * Process Bank Statement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -140,7 +140,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Process Bank Statement from url and extract all the fields from it.
+     * Process Bank Statement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -153,7 +153,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Delete Bank Statement from Veryfi
+     * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to delete.
      * @return the response data. {@link String}
@@ -166,7 +166,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Delete Bank Statement from Veryfi
+     * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

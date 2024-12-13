@@ -50,7 +50,7 @@ class DocumentTests {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.getDocuments();
+        String jsonResponse = client.getDocuments(1, 50, false, false, null);
         JSONObject documents = new JSONObject(jsonResponse);
         Assertions.assertEquals(documents.length(), 2);
     }
@@ -59,7 +59,7 @@ class DocumentTests {
     void getDocumentsTestWithException() throws IOException, InterruptedException {
         when(httpClient.send(any(HttpRequest.class) , ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenThrow(new InterruptedException());
 
-        String jsonResponse = client.getDocuments();
+        String jsonResponse = client.getDocuments(1, 50, false, false, null);
         Assertions.assertEquals("", jsonResponse);
     }
 
@@ -213,7 +213,7 @@ class DocumentTests {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        CompletableFuture<String> jsonResponseFuture = client.getDocumentsAsync();
+        CompletableFuture<String> jsonResponseFuture = client.getDocumentsAsync(1, 50, false, false, null);
         String jsonResponse  = jsonResponseFuture.get();
         JSONObject documents = new JSONObject(jsonResponse);
         Assertions.assertEquals(documents.length(), 2);
@@ -322,7 +322,7 @@ class DocumentTests {
         String apiKey = "bad_password";
         int apiVersion = 7;
         ClientImpl client = (ClientImpl) VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey, apiVersion);
-        String jsonResponse = client.getDocuments();
+        String jsonResponse = client.getDocuments(1, 50, false, false, null);
         InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/badCredentials.json");
         assert fileStream != null;
         String result = new String(fileStream.readAllBytes());

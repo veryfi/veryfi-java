@@ -37,7 +37,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W-8BEN-E.
+     * Returns a json string {@link String} with the list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W-8BEN-E.
+     * Returns a json string {@link CompletableFuture<String>} list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} W-8BEN-E information
+     * Returns a json string {@link String} W-8BEN-E information. https://docs.veryfi.com/api/w-8ben-e/get-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to retrieve.
      * @return the data extracted from the W-8BEN-E {@link String}
@@ -90,7 +90,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W-8BEN-E information.
+     * Returns a json string {@link CompletableFuture<String>} W-8BEN-E information. https://docs.veryfi.com/api/w-8ben-e/get-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to retrieve.
      * @return the data extracted from the W-8BEN-E {@link String}
@@ -103,7 +103,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Process a W-8BEN-E and extract all the fields from it
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
       * @param parameters    Additional request parameters.
@@ -115,7 +115,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Process a W-8BEN-E and extract all the fields from it
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -127,7 +127,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Process W-8BEN-E from url and extract all the fields from it.
+     * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -140,7 +140,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Process W-8BEN-E from url and extract all the fields from it.
+     * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -153,7 +153,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Delete W-8BEN-E from Veryfi
+     * Delete W-8BEN-E from Veryfi. https://docs.veryfi.com/api/w-8ben-e/delete-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to delete.
      * @return the response data. {@link String}
@@ -166,7 +166,7 @@ class W8BenEServices extends NetworkClient {
     }
 
     /**
-     * Delete W-8BEN-E from Veryfi
+     * Delete W-8BEN-E from Veryfi. https://docs.veryfi.com/api/w-8ben-e/delete-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

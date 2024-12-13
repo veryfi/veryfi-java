@@ -37,7 +37,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W9s.
+     * Returns a json string {@link String} with the list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W9s.
+     * Returns a json string {@link CompletableFuture<String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} W9 information
+     * Returns a json string {@link String} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -90,7 +90,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W9 information.
+     * Returns a json string {@link CompletableFuture<String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -103,7 +103,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Process a W9 and extract all the fields from it
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
       * @param parameters    Additional request parameters.
@@ -115,7 +115,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Process a W9 and extract all the fields from it
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -127,7 +127,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Process W9 from url and extract all the fields from it.
+     * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -140,7 +140,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Process W9 from url and extract all the fields from it.
+     * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -153,7 +153,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Delete W9 from Veryfi
+     * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
      * @return the response data. {@link String}
@@ -166,7 +166,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Delete W9 from Veryfi
+     * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

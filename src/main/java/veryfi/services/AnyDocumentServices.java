@@ -37,7 +37,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Any Documents.
+     * Returns a json string {@link String} with the list of Any Documents. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Any Documents.
+     * Returns a json string {@link CompletableFuture<String>} list of Any Documents. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} Any Document information
+     * Returns a json string {@link String} Any Document information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to retrieve.
      * @return the data extracted from the Any Document {@link String}
@@ -90,7 +90,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Any Document information.
+     * Returns a json string {@link CompletableFuture<String>} Any Document information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to retrieve.
      * @return the data extracted from the Any Document {@link String}
@@ -103,7 +103,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Process a Any Document and extract all the fields from it
+     * Process a Any Document and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
@@ -117,7 +117,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Process a Any Document and extract all the fields from it
+     * Process a Any Document and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
@@ -131,7 +131,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Process Any Document from url and extract all the fields from it.
+     * Process Any Document from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -146,7 +146,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Process Any Document from url and extract all the fields from it.
+     * Process Any Document from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -161,7 +161,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Delete Any Document from Veryfi
+     * Delete Any Document from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to delete.
      * @return the response data. {@link String}
@@ -174,7 +174,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Delete Any Document from Veryfi
+     * Delete Any Document from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

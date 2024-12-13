@@ -39,7 +39,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Retrieve all line items for a document.
+     * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return List of line items extracted from the document. {@link String}
@@ -51,7 +51,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Retrieve all line items for a document.
+     * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return List of line items extracted from the document. {@link CompletableFuture <String>}
@@ -63,7 +63,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Retrieve a line item for existing document by ID.
+     * Retrieve a line item for existing document by ID. https://docs.veryfi.com/api/receipts-invoices/get-a-line-item/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
@@ -76,7 +76,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Retrieve a line item for existing document by ID.
+     * Retrieve a line item for existing document by ID. https://docs.veryfi.com/api/receipts-invoices/get-a-line-item/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
@@ -89,7 +89,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Add a new line item on an existing document.
+     * Add a new line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/create-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param payload    line item object to add.
@@ -103,7 +103,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Add a new line item on an existing document.
+     * Add a new line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/create-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param payload    line item object to add.
@@ -117,7 +117,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Update an existing line item on an existing document.
+     * Update an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/update-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
@@ -132,7 +132,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Update an existing line item on an existing document.
+     * Update an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/update-a-line-item/
      *
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
@@ -148,7 +148,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Delete all line items on an existing document.
+     * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link String}
@@ -160,7 +160,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Delete all line items on an existing document.
+     * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return @return the response data. {@link CompletableFuture<String>}
@@ -172,7 +172,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Delete an existing line item on an existing document.
+     * Delete an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-a-line-item/
      *
      * @param documentId ID of the document you'd like to delete.
      * @param lineItemId ID of the line item you'd like to delete.
@@ -185,7 +185,7 @@ class LineItemServices extends NetworkClient {
     }
 
     /**
-     * Delete an existing line item on an existing document.
+     * Delete an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-a-line-item/
      *
      * @param documentId ID of the document you'd like to delete.
      * @param lineItemId ID of the line item you'd like to delete.

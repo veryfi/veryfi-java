@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"veryfi"},{"l":"veryfi.models"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"veryfi"},{"l":"veryfi.enums"},{"l":"veryfi.models"},{"l":"veryfi.services"}];updateSearchResults();

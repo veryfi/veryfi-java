@@ -8,7 +8,8 @@ public enum Endpoint {
     checks("/partner/checks/"),
     w2s("/partner/w2s/"),
     w9s("/partner/w9s/"),
-    w8BenE("/partner/w-8ben-e/");
+    w8BenE("/partner/w-8ben-e/"),
+    contracts("/partner/contracts/");
 
     public final String path;
 

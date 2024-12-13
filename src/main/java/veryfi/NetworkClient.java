@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
@@ -83,9 +84,13 @@ abstract public class NetworkClient {
         HttpRequest request = getHttpRequest(httpVerb, endpointName, requestArguments);
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.headers() != null) {
+                Optional<String> traceId = response.headers().firstValue("x-veryfi-trace-id");
+                traceId.ifPresent(s -> logger.info("x-veryfi-trace-id: " + s));
+            }
             return response.body();
         } catch (Exception e) {
-            logger.severe("request: " + formatMessage(e.getMessage()));
+            logger.severe("request: " + e.getMessage());
             return "";
         }
     }
@@ -242,7 +247,7 @@ abstract public class NetworkClient {
             byte[] fileContent = Files.readAllBytes(file.toPath());
             base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
         } catch (Exception e) {
-            logger.severe("addFileToParameters: " + formatMessage(e.getMessage()));
+            logger.severe("addFileToParameters: " + e.getMessage());
         }
         if (parameters == null)
             parameters = new JSONObject();
@@ -268,21 +273,5 @@ abstract public class NetworkClient {
         }
         return parameters;
     }
-
-    // *********************************************************************************************
-
-    private static String formatMessage(String message)
-    {
-        final int depth = 4;
-        StackTraceElement[] stackTraceElement = Thread.currentThread().getStackTrace();
-        String[] temp = stackTraceElement[depth].getClassName().split("\\.");
-        String className = temp[temp.length - 1];
-        String methodName = stackTraceElement[depth].getMethodName();
-        int lineNumber = stackTraceElement[depth].getLineNumber();
-        message = (message == null) ? "" : ": " + message;
-        return String.format(Locale.US, "%s.%s() [line %d]%s", className, methodName, lineNumber, message);
-    }
-
-
 
 }

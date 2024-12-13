@@ -37,7 +37,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of Business Cards.
+     * Returns a json string {@link String} with the list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Business Cards.
+     * Returns a json string {@link CompletableFuture<String>} list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} Business Card information
+     * Returns a json string {@link String} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
      *
      * @param documentId ID of the Business Card you'd like to retrieve.
      * @return the data extracted from the Business Card {@link String}
@@ -90,7 +90,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Business Card information.
+     * Returns a json string {@link CompletableFuture<String>} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
      *
      * @param documentId ID of the Business Card you'd like to retrieve.
      * @return the data extracted from the Business Card {@link String}
@@ -103,7 +103,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Process a Business Card and extract all the fields from it
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
       * @param parameters    Additional request parameters.
@@ -115,7 +115,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Process a Business Card and extract all the fields from it
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -127,7 +127,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Process Business Card from url and extract all the fields from it.
+     * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -140,7 +140,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Process Business Card from url and extract all the fields from it.
+     * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -153,7 +153,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Delete Business Card from Veryfi
+     * Delete Business Card from Veryfi. https://docs.veryfi.com/api/business-cards/delete-a-business-card/
      *
      * @param documentId ID of the Business Card you'd like to delete.
      * @return the response data. {@link String}
@@ -166,7 +166,7 @@ class BusinessCardsServices extends NetworkClient {
     }
 
     /**
-     * Delete Business Card from Veryfi
+     * Delete Business Card from Veryfi. https://docs.veryfi.com/api/business-cards/delete-a-business-card/
      *
      * @param documentId ID of the Business Card you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

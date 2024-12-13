@@ -37,7 +37,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of W2s.
+     * Returns a json string {@link String} with the list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -57,7 +57,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W2s.
+     * Returns a json string {@link CompletableFuture<String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -77,7 +77,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} W2 information
+     * Returns a json string {@link String} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -90,7 +90,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W2 information.
+     * Returns a json string {@link CompletableFuture<String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -103,7 +103,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Process a W2 and extract all the fields from it
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
       * @param parameters    Additional request parameters.
@@ -115,7 +115,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Process a W2 and extract all the fields from it
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
@@ -127,7 +127,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Process W2 from url and extract all the fields from it.
+     * Process W2 from url and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -140,7 +140,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Process W2 from url and extract all the fields from it.
+     * Process W2 from url and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -153,7 +153,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Delete W2 from Veryfi
+     * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
      * @return the response data. {@link String}
@@ -166,7 +166,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Delete W2 from Veryfi
+     * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}

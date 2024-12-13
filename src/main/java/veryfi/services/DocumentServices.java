@@ -42,25 +42,47 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link String} with the list of documents.
+     * Returns a json string {@link String} with the list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
      * @return the url {@link String}
      */
-    protected String getDocuments() {
-        return request(HttpMethod.GET, Endpoint.documents.path, new JSONObject());
+    protected String getDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        if (parameters == null)
+            parameters = new JSONObject();
+        parameters.put("page", page);
+        parameters.put("page_size", pageSize);
+        parameters.put("bounding_boxes", boundingBoxes);
+        parameters.put("confidence_details", confidenceDetails);
+        return request(HttpMethod.GET, Endpoint.documents.path, parameters);
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of documents.
+     * Returns a json string {@link CompletableFuture<String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
      * @return the list of previously processed documents {@link String}
      */
-    protected CompletableFuture<String> getDocumentsAsync() {
-        return requestAsync(HttpMethod.GET, Endpoint.documents.path, new JSONObject());
+    protected CompletableFuture<String> getDocumentsAsync(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        if (parameters == null)
+            parameters = new JSONObject();
+        parameters.put("page", page);
+        parameters.put("page_size", pageSize);
+        parameters.put("bounding_boxes", boundingBoxes);
+        parameters.put("confidence_details", confidenceDetails);
+        return requestAsync(HttpMethod.GET, Endpoint.documents.path, parameters);
     }
 
     /**
-     * Returns a json string {@link String} document information
+     * Returns a json string {@link String} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return the data extracted from the Document {@link String}
@@ -73,7 +95,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} document information.
+     * Returns a json string {@link CompletableFuture<String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return the data extracted from the Document {@link String}
@@ -86,7 +108,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Process a document and extract all the fields from it
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param filePath              Path on disk to a file to submit for data extraction
      * @param categories            List of categories Veryfi can use to categorize the document
@@ -101,7 +123,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Process a document and extract all the fields from it
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param filePath              Path on disk to a file to submit for data extraction
      * @param categories            List of categories Veryfi can use to categorize the document
@@ -116,7 +138,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Process Document from url and extract all the fields from it.
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -136,7 +158,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Process Document from url and extract all the fields from it.
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
@@ -157,7 +179,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Delete Document from Veryfi
+     * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link String}
@@ -170,7 +192,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Delete Document from Veryfi
+     * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      *
      * @param documentId ID of the document you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
@@ -184,7 +206,7 @@ class DocumentServices extends NetworkClient {
 
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
-     *
+     * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
      * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link String}
@@ -196,7 +218,7 @@ class DocumentServices extends NetworkClient {
 
     /**
      * Update data for a previously processed document, including almost any field like `vendor`, `date`, `notes` etc.
-     *
+     * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
      * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link CompletableFuture<String>}

@@ -38,7 +38,7 @@ class TagServices extends NetworkClient {
     }
 
     /**
-     * Replace multiple tags on an existing document.
+     * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture <String>}
@@ -52,7 +52,7 @@ class TagServices extends NetworkClient {
     }
 
     /**
-     * Replace multiple tags on an existing document.
+     * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -66,7 +66,7 @@ class TagServices extends NetworkClient {
     }
 
     /**
-     * Add multiple tags on an existing document.
+     * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
@@ -80,7 +80,7 @@ class TagServices extends NetworkClient {
     }
 
     /**
-     * Add multiple tags on an existing document.
+     * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
      * @return the response data. {@link CompletableFuture<String>}
