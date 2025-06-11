@@ -352,6 +352,28 @@ public interface Client {
     CompletableFuture<String> processAnyDocumentAsync(String filePath, String blueprintName, JSONObject parameters);
 
     /**
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param blueprintName The name of the extraction blueprints.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the AnyDocument {@link String}
+     */
+    String processAnyDocument(String fileName, String fileData, String blueprintName, JSONObject parameters);
+
+    /**
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param blueprintName The name of the extraction blueprints.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the AnyDocument {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processAnyDocumentAsync(String fileName, String fileData, String blueprintName, JSONObject parameters);
+
+    /**
      * Process AnyDocument from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
