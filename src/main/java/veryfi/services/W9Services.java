@@ -127,6 +127,32 @@ class W9Services extends NetworkClient {
     }
 
     /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link String}
+     */
+    protected String processW9(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
+        return request(HttpMethod.POST, Endpoint.w9s.path, parameters);
+    }
+
+    /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     */
+    protected CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
+        return requestAsync(HttpMethod.POST, Endpoint.w9s.path, parameters);
+    }
+
+    /**
      * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

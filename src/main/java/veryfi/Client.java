@@ -1020,6 +1020,26 @@ public interface Client {
     CompletableFuture<String> processW9Async(String filePath, JSONObject parameters);
 
     /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link String}
+     */
+    String processW9(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters);
+
+    /**
      * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

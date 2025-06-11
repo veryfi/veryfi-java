@@ -1354,6 +1354,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link String}
+     */
+    public String processW9(String fileName, String fileData, JSONObject parameters) {
+        return w9Services.processW9(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters) {
+        return w9Services.processW9Async(fileName, fileData, parameters);
+    }
+
+    /**
      * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
