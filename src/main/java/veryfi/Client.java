@@ -1090,6 +1090,26 @@ public interface Client {
     CompletableFuture<String> processContractAsync(String filePath, JSONObject parameters);
 
     /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link String}
+     */
+    String processContract(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processContractAsync(String fileName, String fileData, JSONObject parameters);
+
+    /**
      * Process Contract from url and extract all the fields from it.
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

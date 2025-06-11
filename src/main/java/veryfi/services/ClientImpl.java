@@ -1440,6 +1440,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link String}
+     */
+    public String processContract(String fileName, String fileData, JSONObject parameters) {
+        return contractServices.processContract(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processContractAsync(String fileName, String fileData, JSONObject parameters) {
+        return contractServices.processContractAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Contract from url and extract all the fields from it.
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
