@@ -89,6 +89,22 @@ class BankStatementTests {
     }
 
     @Test
+    void processBankStatementBase64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("bankStatements/processBankStatement.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processBankStatement(getFileName(), getFileData(), null);
+        JSONObject bankStatement = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4559568, bankStatement.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processBankStatementUrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("bankStatements/processBankStatement.json");
@@ -177,6 +193,24 @@ class BankStatementTests {
     }
 
     @Test
+    void processBankStatementBase64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("bankStatements/processBankStatement.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processBankStatementAsync(getFileName(), getFileData(), null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject bankStatement = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4559568, bankStatement.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processBankStatementUrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("bankStatements/processBankStatement.json");
@@ -213,8 +247,16 @@ class BankStatementTests {
         Assertions.assertEquals(4559568, bankStatement.getJSONObject("data").getInt("id"));
     }
 
-
     private String getFilePath() {
-        return ClassLoader.getSystemResource("bankStatements/bankstatement.pdf").getPath();
+        return FileHelper.getFilePath("bankStatements/bankstatement.pdf");
     }
+
+    private String getFileName() {
+        return FileHelper.getFileName("bankStatements/bankstatement.pdf");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("bankStatements/bankstatement.pdf");
+    }
+
 }

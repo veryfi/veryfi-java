@@ -664,25 +664,49 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link String}
+     * @return the data extracted from the Bank Statement {@link String}
      */
     public String processBankStatement(String filePath, JSONObject parameters) {
         return bankStatementServices.processBankStatement(filePath, parameters);
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters) {
         return bankStatementServices.processBankStatementAsync(filePath, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link String}
+     */
+    public String processBankStatement(String fileName, String fileData, JSONObject parameters) {
+        return bankStatementServices.processBankStatement(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters) {
+        return bankStatementServices.processBankStatementAsync(fileName, fileData, parameters);
     }
 
     /**

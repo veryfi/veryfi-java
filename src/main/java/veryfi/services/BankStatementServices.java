@@ -106,7 +106,7 @@ class BankStatementServices extends NetworkClient {
      * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
-      * @param parameters    Additional request parameters.
+     * @param parameters    Additional request parameters.
      * @return the data extracted from the Bank Statement {@link String}
      */
     protected String processBankStatement(String filePath, JSONObject parameters) {
@@ -123,6 +123,32 @@ class BankStatementServices extends NetworkClient {
      */
     protected CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
+        return requestAsync(HttpMethod.POST, Endpoint.bankStatements.path, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link String}
+     */
+    protected String processBankStatement(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
+        return request(HttpMethod.POST, Endpoint.bankStatements.path, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     */
+    protected CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
         return requestAsync(HttpMethod.POST, Endpoint.bankStatements.path, parameters);
     }
 

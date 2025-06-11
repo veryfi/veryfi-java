@@ -452,55 +452,75 @@ public interface Client {
     CompletableFuture<String> getBankStatementAsync(String documentId);
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link String}
+     * @return the data extracted from the Bank Statement {@link String}
      */
     String processBankStatement(String filePath, JSONObject parameters);
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
      */
     CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters);
 
     /**
-     * Process BankStatement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link String}
+     */
+    String processBankStatement(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process Bank Statement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the BankStatement {@link String}
+     * @return the data extracted from the Bank Statement {@link String}
      */
     String processBankStatementUrl(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
     /**
-     * Process BankStatement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process Bank Statement from url and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the BankStatement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
      */
     CompletableFuture<String> processBankStatementUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
     /**
-     * Delete BankStatement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
+     * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
-     * @param documentId ID of the BankStatement you'd like to delete.
+     * @param documentId ID of the Bank Statement you'd like to delete.
      * @return the response data. {@link String}
      */
     String deleteBankStatement(String documentId);
 
     /**
-     * Delete BankStatement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
+     * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
-     * @param documentId ID of the BankStatement you'd like to delete.
+     * @param documentId ID of the Bank Statement you'd like to delete.
      * @return the response data. {@link CompletableFuture<String>}
      */
     CompletableFuture<String> deleteBankStatementAsync(String documentId);
