@@ -73,6 +73,32 @@ public interface Client {
                                                    boolean deleteAfterProcessing, JSONObject parameters);
 
     /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link String}
+     */
+    String processDocument(String fileName, String fileData, List<String> categories,
+                                  boolean deleteAfterProcessing, JSONObject parameters);
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
+                                                          boolean deleteAfterProcessing, JSONObject parameters);
+
+    /**
      * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      * @param fileUrl Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]

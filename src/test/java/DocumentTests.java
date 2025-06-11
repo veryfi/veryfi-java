@@ -6,12 +6,15 @@ import org.mockito.ArgumentMatchers;
 import veryfi.VeryfiClientFactory;
 import veryfi.services.ClientImpl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -92,13 +95,31 @@ class DocumentTests {
             when(httpResponse.statusCode()).thenReturn(200);
             when(httpResponse.body()).thenReturn(result);
         }
-        String jsonResponse = client.processDocument(getFilePath(), categories, false, null);
+        String jsonResponse = client.processDocument(getFileName(), getFileData(), categories, false, null);
         JSONObject document = new JSONObject(jsonResponse);
         Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
     }
 
     @Test
     void processDocumentTestWithParameters() throws IOException, InterruptedException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        JSONObject parameters = new JSONObject();
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processDocument(getFilePath(), categories, false, parameters);
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
+    void processBase64DocumentTest() throws IOException, InterruptedException {
         List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
         JSONObject parameters = new JSONObject();
         if (mockResponses) {
@@ -258,6 +279,25 @@ class DocumentTests {
     }
 
     @Test
+    void processBase64DocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processDocumentAsync(getFileName(), getFileData(), categories, false, null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+    }
+
+    @Test
     void updateDocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
         String documentId = "125344108"; // Change to your document Id
         JSONObject parameters = new JSONObject();
@@ -331,5 +371,21 @@ class DocumentTests {
 
     private String getFilePath() {
         return ClassLoader.getSystemResource("documents/receipt.jpeg").getPath();
+    }
+
+    private String getFileName() {
+        return getFilePath().replaceAll("^.*[/\\\\]", "");
+    }
+
+    private String getFileData() {
+        File file = new File(getFilePath());
+        String base64EncodedString = "";
+        try {
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+        } catch (Exception e) {
+            Assertions.fail(e);
+        }
+        return base64EncodedString;
     }
 }

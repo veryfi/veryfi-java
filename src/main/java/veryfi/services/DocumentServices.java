@@ -138,6 +138,38 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link String}
+     */
+    protected String processDocument(String fileName, String fileData, List<String> categories,
+                                     boolean deleteAfterProcessing, JSONObject parameters) {
+        JSONObject requestArguments = getProcessDocumentArguments(fileName, fileData, categories, deleteAfterProcessing, parameters);
+        return request(HttpMethod.POST, Endpoint.documents.path, requestArguments);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     */
+    protected CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
+                                                             boolean deleteAfterProcessing, JSONObject parameters) {
+        JSONObject requestArguments = getProcessDocumentArguments(fileName, fileData, categories, deleteAfterProcessing, parameters);
+        return requestAsync(HttpMethod.POST, Endpoint.documents.path, requestArguments);
+    }
+
+    /**
      * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -231,29 +263,21 @@ class DocumentServices extends NetworkClient {
     /**
      * Creates the JSON Object for the parameters of the request
      *
-     * @param filePath              Path on disk to a file to submit for data extraction
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
      * @param parameters            Additional request parameters
      * @return the JSON object of the parameters of the request
      */
-    private JSONObject getProcessDocumentArguments(String filePath, List<String> categories,
-                                                  boolean deleteAfterProcessing, JSONObject parameters) {
+    private JSONObject getProcessDocumentArguments(String fileName, String fileData, List<String> categories,
+                                                   boolean deleteAfterProcessing, JSONObject parameters) {
         if (categories == null || categories.isEmpty()) {
             categories = LIST_CATEGORIES;
         }
-        String fileName = filePath.replaceAll("^.*[/\\\\]", "");
-        File file = new File(filePath);
-        String base64EncodedString = "";
-        try {
-            byte[] fileContent = Files.readAllBytes(file.toPath());
-            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-        }
         JSONObject requestArguments = new JSONObject();
         requestArguments.put(FILE_NAME, fileName);
-        requestArguments.put(FILE_DATA, base64EncodedString);
+        requestArguments.put(FILE_DATA, fileData);
         requestArguments.put(CATEGORIES, categories);
         requestArguments.put(AUTO_DELETE, deleteAfterProcessing);
 
@@ -263,6 +287,29 @@ class DocumentServices extends NetworkClient {
             }
         }
         return requestArguments;
+    }
+
+    /**
+     * Creates the JSON Object for the parameters of the request
+     *
+     * @param filePath              Path on disk to a file to submit for data extraction
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the JSON object of the parameters of the request
+     */
+    private JSONObject getProcessDocumentArguments(String filePath, List<String> categories,
+                                                  boolean deleteAfterProcessing, JSONObject parameters) {
+        String fileName = filePath.replaceAll("^.*[/\\\\]", "");
+        File file = new File(filePath);
+        String base64EncodedString = "";
+        try {
+            byte[] fileContent = Files.readAllBytes(file.toPath());
+            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return getProcessDocumentArguments(fileName, base64EncodedString, categories, deleteAfterProcessing, parameters);
     }
 
     /**
