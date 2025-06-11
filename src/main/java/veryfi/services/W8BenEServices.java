@@ -106,7 +106,7 @@ class W8BenEServices extends NetworkClient {
      * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
-      * @param parameters    Additional request parameters.
+     * @param parameters    Additional request parameters.
      * @return the data extracted from the W-8BEN-E {@link String}
      */
     protected String processW8BenE(String filePath, JSONObject parameters) {
@@ -123,6 +123,32 @@ class W8BenEServices extends NetworkClient {
      */
     protected CompletableFuture<String> processW8BenEAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
+        return requestAsync(HttpMethod.POST, Endpoint.w8BenE.path, parameters);
+    }
+
+    /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link String}
+     */
+    protected String processW8BenE(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
+        return request(HttpMethod.POST, Endpoint.w8BenE.path, parameters);
+    }
+
+    /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     */
+    protected CompletableFuture<String> processW8BenEAsync(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
         return requestAsync(HttpMethod.POST, Endpoint.w8BenE.path, parameters);
     }
 

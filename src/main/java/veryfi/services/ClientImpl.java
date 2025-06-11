@@ -1216,6 +1216,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link String}
+     */
+    public String processW8BenE(String fileName, String fileData, JSONObject parameters) {
+        return w8BenEServices.processW8BenE(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW8BenEAsync(String fileName, String fileData, JSONObject parameters) {
+        return w8BenEServices.processW8BenEAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
