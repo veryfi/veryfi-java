@@ -812,6 +812,26 @@ public interface Client {
     CompletableFuture<String> processW2Async(String filePath, JSONObject parameters);
 
     /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link String}
+     */
+    String processW2(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters);
+
+    /**
      * Process W2 from url and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

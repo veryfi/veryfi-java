@@ -89,6 +89,22 @@ class W2Tests {
     }
 
     @Test
+    void processW2Base64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w2s/processW2.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processW2(getFileName(), getFileData(), null);
+        JSONObject w2s = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4559395, w2s.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW2UrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w2s/processW2.json");
@@ -177,6 +193,24 @@ class W2Tests {
     }
 
     @Test
+    void processW2Base64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w2s/processW2.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processW2Async(getFileName(), getFileData(), null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject w2s = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4559395, w2s.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW2UrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w2s/processW2.json");
@@ -213,8 +247,16 @@ class W2Tests {
         Assertions.assertEquals(4559395, w2s.getJSONObject("data").getInt("id"));
     }
 
-
     private String getFilePath() {
-        return ClassLoader.getSystemResource("w2s/w2.png").getPath();
+        return FileHelper.getFilePath("w2s/w2.png");
     }
+
+    private String getFileName() {
+        return FileHelper.getFileName("w2s/w2.png");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("w2s/w2.png");
+    }
+
 }

@@ -106,7 +106,7 @@ class W2Services extends NetworkClient {
      * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
-      * @param parameters    Additional request parameters.
+     * @param parameters    Additional request parameters.
      * @return the data extracted from the W2 {@link String}
      */
     protected String processW2(String filePath, JSONObject parameters) {
@@ -123,6 +123,32 @@ class W2Services extends NetworkClient {
      */
     protected CompletableFuture<String> processW2Async(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
+        return requestAsync(HttpMethod.POST, Endpoint.w2s.path, parameters);
+    }
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link String}
+     */
+    protected String processW2(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
+        return request(HttpMethod.POST, Endpoint.w2s.path, parameters);
+    }
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     */
+    protected CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters) {
+        parameters = addFileToParameters(fileName, fileData, parameters);
         return requestAsync(HttpMethod.POST, Endpoint.w2s.path, parameters);
     }
 

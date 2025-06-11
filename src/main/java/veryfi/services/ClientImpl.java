@@ -1464,6 +1464,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link String}
+     */
+    public String processW2(String fileName, String fileData, JSONObject parameters) {
+        return w2Services.processW2(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters) {
+        return w2Services.processW2Async(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Contract from url and extract all the fields from it.
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
