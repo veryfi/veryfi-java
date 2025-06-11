@@ -87,6 +87,22 @@ class CheckTests {
     }
 
     @Test
+    void processCheckBase64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("checks/processCheck.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processCheck(getFileName(), getFileData(), null);
+        JSONObject check = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662680, check.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processCheckUrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("checks/processCheck.json");
@@ -175,6 +191,24 @@ class CheckTests {
     }
 
     @Test
+    void processCheckBase64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("checks/processCheck.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processCheckAsync(getFileName(), getFileData(), null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject check = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662680, check.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processCheckUrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("checks/processCheck.json");
@@ -211,8 +245,17 @@ class CheckTests {
         Assertions.assertEquals(4662680, check.getJSONObject("data").getInt("id"));
     }
 
-
     private String getFilePath() {
-        return ClassLoader.getSystemResource("checks/check.pdf").getPath();
+        return FileHelper.getFilePath("checks/check.pdf");
     }
+
+    private String getFileName() {
+        return FileHelper.getFileName("checks/check.pdf");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("checks/check.pdf");
+    }
+
+
 }

@@ -888,6 +888,32 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Check {@link String}
+     */
+    @Override
+    public String processCheck(String fileName, String fileData, JSONObject parameters) {
+        return checkServices.processCheck(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> processCheckAsync(String fileName, String fileData, JSONObject parameters) {
+        return checkServices.processCheckAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Check from url and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

@@ -235,6 +235,22 @@ abstract public class NetworkClient {
     /**
      * Creates the JSON Object for the parameters of the request
      *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param parameters            Additional request parameters
+     * @return the JSON object of the parameters of the request
+     */
+    protected JSONObject addFileToParameters(String fileName, String fileData, JSONObject parameters) {
+        if (parameters == null)
+            parameters = new JSONObject();
+        parameters.put(FILE_NAME, fileName);
+        parameters.put(FILE_DATA, fileData);
+        return parameters;
+    }
+
+    /**
+     * Creates the JSON Object for the parameters of the request
+     *
      * @param filePath              Path on disk to a file to submit for data extraction
      * @param parameters            Additional request parameters
      * @return the JSON object of the parameters of the request
@@ -242,18 +258,14 @@ abstract public class NetworkClient {
     protected JSONObject addFileToParameters(String filePath, JSONObject parameters) {
         String fileName = filePath.replaceAll("^.*[/\\\\]", "");
         File file = new File(filePath);
-        String base64EncodedString = "";
+        String fileData = "";
         try {
             byte[] fileContent = Files.readAllBytes(file.toPath());
-            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+            fileData = Base64.getEncoder().encodeToString(fileContent);
         } catch (Exception e) {
             logger.severe("addFileToParameters: " + e.getMessage());
         }
-        if (parameters == null)
-            parameters = new JSONObject();
-        parameters.put(FILE_NAME, fileName);
-        parameters.put(FILE_DATA, base64EncodedString);
-        return parameters;
+        return addFileToParameters(fileName, fileData, parameters);
     }
 
     /**

@@ -302,14 +302,14 @@ class DocumentServices extends NetworkClient {
                                                   boolean deleteAfterProcessing, JSONObject parameters) {
         String fileName = filePath.replaceAll("^.*[/\\\\]", "");
         File file = new File(filePath);
-        String base64EncodedString = "";
+        String fileData = "";
         try {
             byte[] fileContent = Files.readAllBytes(file.toPath());
-            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
+            fileData = Base64.getEncoder().encodeToString(fileContent);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        return getProcessDocumentArguments(fileName, base64EncodedString, categories, deleteAfterProcessing, parameters);
+        return getProcessDocumentArguments(fileName, fileData, categories, deleteAfterProcessing, parameters);
     }
 
     /**

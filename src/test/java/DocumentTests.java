@@ -6,15 +6,12 @@ import org.mockito.ArgumentMatchers;
 import veryfi.VeryfiClientFactory;
 import veryfi.services.ClientImpl;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -119,7 +116,7 @@ class DocumentTests {
     }
 
     @Test
-    void processBase64DocumentTest() throws IOException, InterruptedException {
+    void processDocumentBase64Test() throws IOException, InterruptedException {
         List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
         JSONObject parameters = new JSONObject();
         if (mockResponses) {
@@ -279,7 +276,7 @@ class DocumentTests {
     }
 
     @Test
-    void processBase64DocumentAsyncTest() throws ExecutionException, InterruptedException, IOException {
+    void processDocumentBase64AsyncTest() throws ExecutionException, InterruptedException, IOException {
         List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/processDocument.json");
@@ -370,22 +367,15 @@ class DocumentTests {
     }
 
     private String getFilePath() {
-        return ClassLoader.getSystemResource("documents/receipt.jpeg").getPath();
+        return FileHelper.getFilePath("documents/receipt.jpeg");
     }
 
     private String getFileName() {
-        return getFilePath().replaceAll("^.*[/\\\\]", "");
+        return FileHelper.getFileName("documents/receipt.jpeg");
     }
 
     private String getFileData() {
-        File file = new File(getFilePath());
-        String base64EncodedString = "";
-        try {
-            byte[] fileContent = Files.readAllBytes(file.toPath());
-            base64EncodedString = Base64.getEncoder().encodeToString(fileContent);
-        } catch (Exception e) {
-            Assertions.fail(e);
-        }
-        return base64EncodedString;
+        return FileHelper.getFileData("documents/receipt.jpeg");
     }
+
 }
