@@ -584,6 +584,26 @@ public interface Client {
     CompletableFuture<String> processBusinessCardAsync(String filePath, JSONObject parameters);
 
     /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link String}
+     */
+    String processBusinessCard(String fileName, String fileData, JSONObject parameters);
+
+    /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     */
+    CompletableFuture<String> processBusinessCardAsync(String fileName, String fileData, JSONObject parameters);
+
+    /**
      * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".

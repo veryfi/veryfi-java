@@ -213,8 +213,49 @@ class BusinessCardTests {
         Assertions.assertEquals(4662609, businessCard.getJSONObject("data").getInt("id"));
     }
 
+    @Test
+    void processBusinessCardBase64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("businessCards/processBusinessCard.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processBusinessCard(getFileName(), getFileData(), null);
+        JSONObject businessCard = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662609, businessCard.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
+    void processBusinessCardBase64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("businessCards/processBusinessCard.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processBusinessCardAsync(getFileName(), getFileData(), null);
+        String jsonResponse = jsonResponseFuture.get();
+        JSONObject businessCard = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662609, businessCard.getJSONObject("data").getInt("id"));
+    }
 
     private String getFilePath() {
-        return ClassLoader.getSystemResource("businessCards/business_card.jpg").getPath();
+        return FileHelper.getFilePath("businessCards/business_card.jpg");
+    }
+
+    private String getFileName() {
+        return FileHelper.getFileName("businessCards/business_card.jpg");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("businessCards/business_card.jpg");
     }
 }

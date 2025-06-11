@@ -824,6 +824,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link String}
+     */
+    public String processBusinessCard(String fileName, String fileData, JSONObject parameters) {
+        return businessCardsServices.processBusinessCard(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processBusinessCardAsync(String fileName, String fileData, JSONObject parameters) {
+        return businessCardsServices.processBusinessCardAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
