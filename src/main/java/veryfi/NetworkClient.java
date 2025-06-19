@@ -260,8 +260,7 @@ abstract public class NetworkClient {
         File file = new File(filePath);
         String fileData = "";
         try {
-            byte[] fileContent = Files.readAllBytes(file.toPath());
-            fileData = Base64.getEncoder().encodeToString(fileContent);
+            fileData = Base64Helper.getBase64FileContent(file);
         } catch (Exception e) {
             logger.severe("addFileToParameters: " + e.getMessage());
         }

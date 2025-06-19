@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Assertions;
+                 import veryfi.Base64Helper;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -18,8 +19,7 @@ public class FileHelper {
         File file = new File(getFilePath(filename));
         String fileData = "";
         try {
-            byte[] fileContent = Files.readAllBytes(file.toPath());
-            fileData = Base64.getEncoder().encodeToString(fileContent);
+            fileData = Base64Helper.getBase64FileContent(file);
         } catch (Exception e) {
             Assertions.fail(e);
         }

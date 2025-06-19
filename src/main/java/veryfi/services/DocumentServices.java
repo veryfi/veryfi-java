@@ -1,6 +1,7 @@
 package veryfi.services;
 
 import org.json.JSONObject;
+import veryfi.Base64Helper;
 import veryfi.Credentials;
 import veryfi.NetworkClient;
 import veryfi.enums.Endpoint;
@@ -8,8 +9,6 @@ import veryfi.enums.HttpMethod;
 
 import java.io.File;
 import java.net.http.HttpClient;
-import java.nio.file.Files;
-import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -304,8 +303,7 @@ class DocumentServices extends NetworkClient {
         File file = new File(filePath);
         String fileData = "";
         try {
-            byte[] fileContent = Files.readAllBytes(file.toPath());
-            fileData = Base64.getEncoder().encodeToString(fileContent);
+            fileData = Base64Helper.getBase64FileContent(file);
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
