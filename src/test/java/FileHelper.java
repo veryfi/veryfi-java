@@ -1,9 +1,6 @@
 import org.junit.jupiter.api.Assertions;
-                 import veryfi.Base64Helper;
-
+import veryfi.Base64Helper;
 import java.io.File;
-import java.nio.file.Files;
-import java.util.Base64;
 
 public class FileHelper {
 
