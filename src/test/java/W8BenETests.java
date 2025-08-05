@@ -87,6 +87,22 @@ class W8BenETests {
     }
 
     @Test
+    void processW8BenEBase64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processW8BenE(getFileName(), getFileData(), null);
+        JSONObject w8bene = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662698, w8bene.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW8BenEUrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
@@ -175,6 +191,24 @@ class W8BenETests {
     }
 
     @Test
+    void processW8BenEBase64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processW8BenEAsync(getFileName(), getFileData(), null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject w8bene = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662698, w8bene.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW8BenEUrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w8bene/processW8bene.json");
@@ -213,6 +247,14 @@ class W8BenETests {
 
 
     private String getFilePath() {
-        return ClassLoader.getSystemResource("w8bene/w8bene.pdf").getPath();
+        return FileHelper.getFilePath("w8bene/w8bene.pdf");
+    }
+
+    private String getFileName() {
+        return FileHelper.getFileName("w8bene/w8bene.pdf");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("w8bene/w8bene.pdf");
     }
 }

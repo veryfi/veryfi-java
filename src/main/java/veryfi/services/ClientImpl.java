@@ -27,6 +27,8 @@ public class ClientImpl implements Client {
     private final W9Services w9Services;
     private final W8BenEServices w8BenEServices;
     private final ContractServices contractServices;
+    private final ClassifyServices classifyServices;
+    private final SplitServices splitServices;
 
     /**
      * Creates an instance of {@link ClientImpl}.
@@ -50,6 +52,8 @@ public class ClientImpl implements Client {
         w9Services = new W9Services(credentials, apiVersion);
         w8BenEServices = new W8BenEServices(credentials, apiVersion);
         contractServices = new ContractServices(credentials, apiVersion);
+        classifyServices = new ClassifyServices(credentials, apiVersion);
+        splitServices = new SplitServices(credentials, apiVersion);
     }
 
     /**
@@ -75,6 +79,8 @@ public class ClientImpl implements Client {
         w9Services = new W9Services(credentials, apiVersion, httpClient);
         w8BenEServices = new W8BenEServices(credentials, apiVersion, httpClient);
         contractServices = new ContractServices(credentials, apiVersion, httpClient);
+        classifyServices = new ClassifyServices(credentials, apiVersion, httpClient);
+        splitServices = new SplitServices(credentials, apiVersion, httpClient);
     }
 
     /**
@@ -160,6 +166,38 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link String}
+     */
+    @Override
+    public String processDocument(String fileName, String fileData, List<String> categories,
+                                  boolean deleteAfterProcessing, JSONObject parameters) {
+        return documentServices.processDocument(fileName, fileData, categories, deleteAfterProcessing, parameters);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
+                                                          boolean deleteAfterProcessing, JSONObject parameters) {
+        return documentServices.processDocumentAsync(fileName, fileData, categories, deleteAfterProcessing, parameters);
+    }
+
+    /**
      * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
      *
      * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -178,7 +216,7 @@ public class ClientImpl implements Client {
                                      boolean boostMode, String externalId, JSONObject parameters) {
 
         return documentServices.processDocumentUrl(fileUrl, fileUrls, categories, deleteAfterProcessing,
-                                                   maxPagesToProcess, boostMode, externalId, parameters);
+                maxPagesToProcess, boostMode, externalId, parameters);
     }
 
     /**
@@ -200,7 +238,7 @@ public class ClientImpl implements Client {
                                                              int maxPagesToProcess, boolean boostMode,
                                                              String externalId, JSONObject parameters) {
         return documentServices.processDocumentUrlAsync(fileUrl, fileUrls, categories, deleteAfterProcessing,
-                                                        maxPagesToProcess, boostMode, externalId, parameters);
+                maxPagesToProcess, boostMode, externalId, parameters);
     }
 
     /**
@@ -512,6 +550,32 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param blueprintName The name of the extraction blueprints.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the AnyDocument {@link String}
+     */
+    public String processAnyDocument(String fileName, String fileData, String blueprintName, JSONObject parameters) {
+        return anyDocumentServices.processAnyDocument(fileName, fileData, blueprintName, parameters);
+    }
+
+    /**
+     * Process a AnyDocument and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param blueprintName The name of the extraction blueprints.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the AnyDocument {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processAnyDocumentAsync(String fileName, String fileData, String blueprintName, JSONObject parameters) {
+        return anyDocumentServices.processAnyDocumentAsync(fileName, fileData, blueprintName, parameters);
+    }
+
+    /**
      * Process AnyDocument from url and extract all the fields from it. https://docs.veryfi.com/api/anydocs/process-A-doc/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -606,25 +670,49 @@ public class ClientImpl implements Client {
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link String}
+     * @return the data extracted from the Bank Statement {@link String}
      */
     public String processBankStatement(String filePath, JSONObject parameters) {
         return bankStatementServices.processBankStatement(filePath, parameters);
     }
 
     /**
-     * Process a BankStatement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the BankStatement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
      */
     public CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters) {
         return bankStatementServices.processBankStatementAsync(filePath, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link String}
+     */
+    public String processBankStatement(String fileName, String fileData, JSONObject parameters) {
+        return bankStatementServices.processBankStatement(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Bank Statement and extract all the fields from it. https://docs.veryfi.com/api/bank-statements/process-a-bank-statement/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters) {
+        return bankStatementServices.processBankStatementAsync(fileName, fileData, parameters);
     }
 
     /**
@@ -742,6 +830,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link String}
+     */
+    public String processBusinessCard(String fileName, String fileData, JSONObject parameters) {
+        return businessCardsServices.processBusinessCard(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Business Card and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processBusinessCardAsync(String fileName, String fileData, JSONObject parameters) {
+        return businessCardsServices.processBusinessCardAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Business Card from url and extract all the fields from it. https://docs.veryfi.com/api/business-cards/process-a-business-card/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -853,6 +965,32 @@ public class ClientImpl implements Client {
      */
     public CompletableFuture<String> processCheckAsync(String filePath, JSONObject parameters) {
         return checkServices.processCheckAsync(filePath, parameters);
+    }
+
+    /**
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Check {@link String}
+     */
+    @Override
+    public String processCheck(String fileName, String fileData, JSONObject parameters) {
+        return checkServices.processCheck(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Check and extract all the fields from it. https://docs.veryfi.com/api/checks/process-a-check/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> processCheckAsync(String fileName, String fileData, JSONObject parameters) {
+        return checkServices.processCheckAsync(fileName, fileData, parameters);
     }
 
     /**
@@ -1084,6 +1222,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link String}
+     */
+    public String processW8BenE(String fileName, String fileData, JSONObject parameters) {
+        return w8BenEServices.processW8BenE(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W-8BEN-E and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW8BenEAsync(String fileName, String fileData, JSONObject parameters) {
+        return w8BenEServices.processW8BenEAsync(fileName, fileData, parameters);
+    }
+
+    /**
      * Process W-8BEN-E from url and extract all the fields from it. https://docs.veryfi.com/api/w-8ben-e/process-a-w-8-ben-e/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -1198,6 +1360,30 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link String}
+     */
+    public String processW9(String fileName, String fileData, JSONObject parameters) {
+        return w9Services.processW9(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W9 and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters) {
+        return w9Services.processW9Async(fileName, fileData, parameters);
+    }
+
+    /**
      * Process W9 from url and extract all the fields from it. https://docs.veryfi.com/api/w9s/process-a-w-9/
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -1308,6 +1494,54 @@ public class ClientImpl implements Client {
     }
 
     /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link String}
+     */
+    public String processContract(String fileName, String fileData, JSONObject parameters) {
+        return contractServices.processContract(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a Contract and extract all the fields from it.
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters
+     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processContractAsync(String fileName, String fileData, JSONObject parameters) {
+        return contractServices.processContractAsync(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link String}
+     */
+    public String processW2(String fileName, String fileData, JSONObject parameters) {
+        return w2Services.processW2(fileName, fileData, parameters);
+    }
+
+    /**
+     * Process a W2 and extract all the fields from it. https://docs.veryfi.com/api/w2s/process-a-w-2/
+     *
+     * @param fileName      Name of the file to submit for data extraction.
+     * @param fileData      Base64 encoded file data.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     */
+    public CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters) {
+        return w2Services.processW2Async(fileName, fileData, parameters);
+    }
+
+    /**
      * Process Contract from url and extract all the fields from it.
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
@@ -1347,6 +1581,212 @@ public class ClientImpl implements Client {
      */
     public CompletableFuture<String> deleteContractAsync(String documentId) {
         return contractServices.deleteContractAsync(documentId);
+    }
+
+    // ClassifyServices methods
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocument(String filePath, JSONObject parameters) {
+        return classifyServices.classifyDocument(filePath, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentAsync(String filePath, JSONObject parameters) {
+        return classifyServices.classifyDocumentAsync(filePath, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocument(String fileName, String fileData, JSONObject parameters) {
+        return classifyServices.classifyDocument(fileName, fileData, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentAsync(String fileName, String fileData, JSONObject parameters) {
+        return classifyServices.classifyDocumentAsync(fileName, fileData, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocumentUrl(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return classifyServices.classifyDocumentUrl(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return classifyServices.classifyDocumentUrlAsync(fileUrl, fileUrls, parameters);
+    }
+
+    // SplitServices methods
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocument(String filePath, JSONObject parameters) {
+        return splitServices.splitDocument(filePath, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture <String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentAsync(String filePath, JSONObject parameters) {
+        return splitServices.splitDocumentAsync(filePath, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocument(String fileName, String fileData, JSONObject parameters) {
+        return splitServices.splitDocument(fileName, fileData, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentAsync(String fileName, String fileData, JSONObject parameters) {
+        return splitServices.splitDocumentAsync(fileName, fileData, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocumentUrl(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return splitServices.splitDocumentUrl(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return splitServices.splitDocumentUrlAsync(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Submitted PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-submitted-pdf/
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
+     * @return JSON object of previously processed documents {@link String}
+     */
+    @Override
+    public String getSplitDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return splitServices.getSplitDocuments(page, pageSize, boundingBoxes, confidenceDetails, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Submitted PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-submitted-pdf/
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
+     * @return JSON object of previously processed documents {@link String}
+     */
+    @Override
+    public CompletableFuture<String> getSplitDocumentsAsync(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return splitServices.getSplitDocumentsAsync(page, pageSize, boundingBoxes, confidenceDetails, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
+     *
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String getSplitDocument(String documentId) {
+        return splitServices.getSplitDocument(documentId);
+    }
+
+    /**
+     * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
+     *
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> getSplitDocumentAsync(String documentId) {
+        return splitServices.getSplitDocumentAsync(documentId);
     }
 
 }

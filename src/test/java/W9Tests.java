@@ -87,6 +87,22 @@ class W9Tests {
     }
 
     @Test
+    void processW9Base64Test() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w9s/processW9.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        String jsonResponse = client.processW9(getFileName(), getFileData(), null);
+        JSONObject w9s = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662722, w9s.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW9UrlTest() throws IOException, InterruptedException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w9s/processW9.json");
@@ -175,6 +191,24 @@ class W9Tests {
     }
 
     @Test
+    void processW9Base64AsyncTest() throws ExecutionException, InterruptedException, IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("w9s/processW9.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> jsonResponseFuture = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(jsonResponseFuture);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+        CompletableFuture<String> jsonResponseFuture = client.processW9Async(getFileName(), getFileData(), null);
+        String jsonResponse  = jsonResponseFuture.get();
+        JSONObject w9s = new JSONObject(jsonResponse);
+        Assertions.assertEquals(4662722, w9s.getJSONObject("data").getInt("id"));
+    }
+
+    @Test
     void processW9UrlAsyncTest() throws ExecutionException, InterruptedException, IOException {
         if (mockResponses) {
             InputStream fileStream = ClassLoader.getSystemResourceAsStream("w9s/processW9.json");
@@ -211,8 +245,15 @@ class W9Tests {
         Assertions.assertEquals(4662722, w9s.getJSONObject("data").getInt("id"));
     }
 
-
     private String getFilePath() {
-        return ClassLoader.getSystemResource("w9s/w9.pdf").getPath();
+        return FileHelper.getFilePath("w9s/w9.pdf");
+    }
+
+    private String getFileName() {
+        return FileHelper.getFileName("w9s/w9.pdf");
+    }
+
+    private String getFileData() {
+        return FileHelper.getFileData("w9s/w9.pdf");
     }
 }
