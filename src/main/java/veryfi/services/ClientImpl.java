@@ -27,6 +27,8 @@ public class ClientImpl implements Client {
     private final W9Services w9Services;
     private final W8BenEServices w8BenEServices;
     private final ContractServices contractServices;
+    private final ClassifyServices classifyServices;
+    private final SplitServices splitServices;
 
     /**
      * Creates an instance of {@link ClientImpl}.
@@ -50,6 +52,8 @@ public class ClientImpl implements Client {
         w9Services = new W9Services(credentials, apiVersion);
         w8BenEServices = new W8BenEServices(credentials, apiVersion);
         contractServices = new ContractServices(credentials, apiVersion);
+        classifyServices = new ClassifyServices(credentials, apiVersion);
+        splitServices = new SplitServices(credentials, apiVersion);
     }
 
     /**
@@ -75,6 +79,8 @@ public class ClientImpl implements Client {
         w9Services = new W9Services(credentials, apiVersion, httpClient);
         w8BenEServices = new W8BenEServices(credentials, apiVersion, httpClient);
         contractServices = new ContractServices(credentials, apiVersion, httpClient);
+        classifyServices = new ClassifyServices(credentials, apiVersion, httpClient);
+        splitServices = new SplitServices(credentials, apiVersion, httpClient);
     }
 
     /**
@@ -1575,6 +1581,212 @@ public class ClientImpl implements Client {
      */
     public CompletableFuture<String> deleteContractAsync(String documentId) {
         return contractServices.deleteContractAsync(documentId);
+    }
+
+    // ClassifyServices methods
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocument(String filePath, JSONObject parameters) {
+        return classifyServices.classifyDocument(filePath, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentAsync(String filePath, JSONObject parameters) {
+        return classifyServices.classifyDocumentAsync(filePath, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocument(String fileName, String fileData, JSONObject parameters) {
+        return classifyServices.classifyDocument(fileName, fileData, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentAsync(String fileName, String fileData, JSONObject parameters) {
+        return classifyServices.classifyDocumentAsync(fileName, fileData, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String classifyDocumentUrl(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return classifyServices.classifyDocumentUrl(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Classify a document and extract all the fields from it. https://docs.veryfi.com/api/classify/classify-a-document/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> classifyDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return classifyServices.classifyDocumentUrlAsync(fileUrl, fileUrls, parameters);
+    }
+
+    // SplitServices methods
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocument(String filePath, JSONObject parameters) {
+        return splitServices.splitDocument(filePath, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param filePath      Path on disk to a file to submit for data extraction.
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture <String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentAsync(String filePath, JSONObject parameters) {
+        return splitServices.splitDocumentAsync(filePath, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocument(String fileName, String fileData, JSONObject parameters) {
+        return splitServices.splitDocument(fileName, fileData, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileName      Name of the file to upload to the Veryfi API
+     * @param fileData      Base64 encoded file data
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentAsync(String fileName, String fileData, JSONObject parameters) {
+        return splitServices.splitDocumentAsync(fileName, fileData, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String splitDocumentUrl(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return splitServices.splitDocumentUrl(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Split document PDF from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/split-and-process-a-pdf/
+     *
+     * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param parameters    Additional request parameters.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> splitDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
+        return splitServices.splitDocumentUrlAsync(fileUrl, fileUrls, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Submitted PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-submitted-pdf/
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
+     * @return JSON object of previously processed documents {@link String}
+     */
+    @Override
+    public String getSplitDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return splitServices.getSplitDocuments(page, pageSize, boundingBoxes, confidenceDetails, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Submitted PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-submitted-pdf/
+     *
+     * @param page   The page number. The response is capped to maximum of 50 results per page.
+     * @param pageSize The number of Documents per page.
+     * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
+     * @param confidenceDetails A field used to determine whether or not to return the score and ocr_score fields in the Document response.
+     * @param parameters Additional request parameters.
+     * @return JSON object of previously processed documents {@link String}
+     */
+    @Override
+    public CompletableFuture<String> getSplitDocumentsAsync(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters) {
+        return splitServices.getSplitDocumentsAsync(page, pageSize, boundingBoxes, confidenceDetails, parameters);
+    }
+
+    /**
+     * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
+     *
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return the data extracted from the document {@link String}
+     */
+    @Override
+    public String getSplitDocument(String documentId) {
+        return splitServices.getSplitDocument(documentId);
+    }
+
+    /**
+     * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
+     *
+     * @param documentId ID of the document you'd like to retrieve.
+     * @return the data extracted from the document {@link CompletableFuture<String>}
+     */
+    @Override
+    public CompletableFuture<String> getSplitDocumentAsync(String documentId) {
+        return splitServices.getSplitDocumentAsync(documentId);
     }
 
 }

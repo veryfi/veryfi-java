@@ -9,7 +9,9 @@ public enum Endpoint {
     w2s("/partner/w2s/"),
     w9s("/partner/w9s/"),
     w8BenE("/partner/w-8ben-e/"),
-    contracts("/partner/contracts/");
+    contracts("/partner/contracts/"),
+    classify("/partner/classify/"),
+    split("/partner/documents-set/");
 
     public final String path;
 
