@@ -53,7 +53,7 @@ class ContractServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Contracts.
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Contracts.
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -82,7 +82,7 @@ class ContractServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} with the Contract information.
+     * Returns a json string {@link CompletableFuture}{@code <String>} with the Contract information.
      *
      * @param documentId ID of the Contract you'd like to retrieve.
      * @return the data extracted from the Contract {@link String}
@@ -111,7 +111,7 @@ class ContractServices extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processContractAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -137,7 +137,7 @@ class ContractServices extends NetworkClient {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processContractAsync(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -161,7 +161,7 @@ class ContractServices extends NetworkClient {
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processContractUrlAsync(String fileUrl, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, null, parameters);
@@ -185,7 +185,7 @@ class ContractServices extends NetworkClient {
      * Delete a Contract from Veryfi.
      *
      * @param documentId ID of the Contract you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteContractAsync(String documentId) {
         String endpointName = Endpoint.contracts.path + documentId + "/";

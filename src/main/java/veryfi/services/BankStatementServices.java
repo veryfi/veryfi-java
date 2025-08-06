@@ -57,7 +57,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Bank Statements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Bank Statements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -90,7 +90,7 @@ class BankStatementServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Bank Statement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
+     * Returns a json string {@link CompletableFuture}{@code <String>} Bank Statement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to retrieve.
      * @return the data extracted from the Bank Statement {@link String}
@@ -119,7 +119,7 @@ class BankStatementServices extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -145,7 +145,7 @@ class BankStatementServices extends NetworkClient {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -171,7 +171,7 @@ class BankStatementServices extends NetworkClient {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processBankStatementUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -195,7 +195,7 @@ class BankStatementServices extends NetworkClient {
      * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteBankStatementAsync(String documentId) {
         String endpointName = Endpoint.bankStatements.path + documentId + "/";

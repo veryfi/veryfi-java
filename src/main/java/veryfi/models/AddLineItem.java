@@ -2,17 +2,55 @@ package veryfi.models;
 
 import org.json.JSONObject;
 
+/**
+ * Model class for adding line items to documents.
+ * <p>
+ * This class extends {@link SharedLineItem} and provides the necessary fields
+ * for creating new line items in Veryfi documents. The required fields are
+ * order, description, and total, while all other fields are optional.
+ * </p>
+ * 
+ * @see SharedLineItem
+ * @see UpdateLineItem
+ * @see NotValidModelException
+ */
 public class AddLineItem extends SharedLineItem {
+    /**
+     * The order/position of the line item in the document.
+     * This field is required and cannot be null.
+     */
     public Integer order;
+    
+    /**
+     * The description or name of the line item.
+     * This field is required and cannot be null.
+     */
     public String description;
+    
+    /**
+     * The total amount for this line item.
+     * This field is required and cannot be null.
+     */
     public Float total;
 
+    /**
+     * Creates a new AddLineItem with the required fields.
+     * 
+     * @param order The order/position of the line item
+     * @param description The description or name of the line item
+     * @param total The total amount for this line item
+     */
     public AddLineItem(Integer order, String description, Float total) {
         this.order = order;
         this.description = description;
         this.total = total;
     }
 
+    /**
+     * Convert current object to a Json
+     * @return Json object
+     * @throws NotValidModelException throws when the model is not valid.
+     */
     public final JSONObject toJsonObject() throws NotValidModelException {
         JSONObject jsonObject = new JSONObject();
         if (order == null || description == null || total == null) throw new NotValidModelException("order, description and total can't be null");

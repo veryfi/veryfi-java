@@ -2,9 +2,35 @@ package veryfi.models;
 
 import org.json.JSONObject;
 
+/**
+ * Model class for updating line items in documents.
+ * <p>
+ * This class extends {@link SharedLineItem} and provides the necessary fields
+ * for updating existing line items in Veryfi documents. Unlike {@link AddLineItem},
+ * all fields in this class are optional since updates may only modify specific fields.
+ * </p>
+ * 
+ * @see SharedLineItem
+ * @see AddLineItem
+ * @see NotValidModelException
+ */
 public class UpdateLineItem extends SharedLineItem {
+    /**
+     * The order/position of the line item in the document.
+     * Optional field that can be null.
+     */
     public Integer order;
+    
+    /**
+     * The description or name of the line item.
+     * Optional field that can be null.
+     */
     public String description;
+    
+    /**
+     * The total amount for this line item.
+     * Optional field that can be null.
+     */
     public Float total;
 
     /**

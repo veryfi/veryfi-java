@@ -57,7 +57,7 @@ class CheckServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Checks. https://docs.veryfi.com/api/checks/get-checks/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Checks. https://docs.veryfi.com/api/checks/get-checks/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -90,7 +90,7 @@ class CheckServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Check information. https://docs.veryfi.com/api/checks/get-a-check/
+     * Returns a json string {@link CompletableFuture}{@code <String>} Check information. https://docs.veryfi.com/api/checks/get-a-check/
      *
      * @param documentId ID of the Check you'd like to retrieve.
      * @return the data extracted from the Check {@link String}
@@ -119,7 +119,7 @@ class CheckServices extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processCheckAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -145,7 +145,7 @@ class CheckServices extends NetworkClient {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processCheckAsync(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -171,7 +171,7 @@ class CheckServices extends NetworkClient {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processCheckUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -195,7 +195,7 @@ class CheckServices extends NetworkClient {
      * Delete Check from Veryfi. https://docs.veryfi.com/api/checks/delete-a-check/
      *
      * @param documentId ID of the Check you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteCheckAsync(String documentId) {
         String endpointName = Endpoint.checks.path + documentId + "/";

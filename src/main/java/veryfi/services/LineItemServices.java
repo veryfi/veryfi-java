@@ -54,7 +54,7 @@ class LineItemServices extends NetworkClient {
      * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      *
      * @param documentId ID of the document you'd like to retrieve.
-     * @return List of line items extracted from the document. {@link CompletableFuture <String>}
+     * @return List of line items extracted from the document. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> getLineItemsAsync(String documentId) {
         String endpointName = Endpoint.documents.path + documentId + "/line-items/";
@@ -80,7 +80,7 @@ class LineItemServices extends NetworkClient {
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
-     * @return Line item extracted from the document. {@link CompletableFuture<String>}
+     * @return Line item extracted from the document. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> getLineItemAsync(String documentId, String lineItemId) {
         String endpointName = Endpoint.documents.path + documentId + "/line-items/" + lineItemId;
@@ -107,7 +107,7 @@ class LineItemServices extends NetworkClient {
      *
      * @param documentId ID of the document you'd like to update.
      * @param payload    line item object to add.
-     * @return Added line item data. {@link CompletableFuture<String>}
+     * @return Added line item data. {@link CompletableFuture}{@code <String>}
      * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     protected CompletableFuture<String> addLineItemAsync(String documentId, AddLineItem payload) throws NotValidModelException {
@@ -137,7 +137,7 @@ class LineItemServices extends NetworkClient {
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload    line item object to update.
-     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture}{@code <String>}
      * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     protected CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, UpdateLineItem payload) throws NotValidModelException {
@@ -163,7 +163,7 @@ class LineItemServices extends NetworkClient {
      * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      *
      * @param documentId ID of the document you'd like to delete.
-     * @return @return the response data. {@link CompletableFuture<String>}
+     * @return return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteLineItemsAsync(String documentId) {
         String endpointName = Endpoint.documents.path + documentId + "/line-items/";
@@ -189,7 +189,7 @@ class LineItemServices extends NetworkClient {
      *
      * @param documentId ID of the document you'd like to delete.
      * @param lineItemId ID of the line item you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteLineItemAsync(String documentId, String lineItemId) {
         String endpointName = Endpoint.documents.path + documentId + "/line-items/" + lineItemId;

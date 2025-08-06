@@ -30,7 +30,7 @@ public interface Client {
     String getDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
      * @param boundingBoxes A field used to determine whether or not to return bounding_box and bounding_region for extracted fields in the Document response.
@@ -48,9 +48,9 @@ public interface Client {
     String getDocument(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
+     * Returns a json string {@link CompletableFuture}{@code <String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      * @param documentId ID of the document you'd like to retrieve.
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> getDocumentAsync(String documentId);
 
@@ -71,7 +71,7 @@ public interface Client {
      * @param categories List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
      * @param parameters Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentAsync(String filePath, List<String> categories,
                                                    boolean deleteAfterProcessing, JSONObject parameters);
@@ -97,7 +97,7 @@ public interface Client {
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
      * @param parameters            Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
                                                           boolean deleteAfterProcessing, JSONObject parameters);
@@ -127,7 +127,7 @@ public interface Client {
      * @param boostMode Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
      * @param externalId Optional custom document identifier. Use this if you would like to assign your own ID to documents
      * @param parameters Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentUrlAsync(String fileUrl, List<String> fileUrls, List<String> categories, boolean deleteAfterProcessing,
                               int maxPagesToProcess, boolean boostMode, String externalId, JSONObject parameters);
@@ -143,7 +143,7 @@ public interface Client {
     /**
      * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      * @param documentId ID of the document you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteDocumentAsync(String documentId);
 
@@ -161,7 +161,7 @@ public interface Client {
      * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters.
-     * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link CompletableFuture<String>}
+     * @return A document json with updated fields, if fields are writable. Otherwise a document with unchanged fields. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters);
 
@@ -175,7 +175,7 @@ public interface Client {
     /**
      * Retrieve all line items for a document. https://docs.veryfi.com/api/receipts-invoices/get-document-line-items/
      * @param documentId ID of the document you'd like to retrieve.
-     * @return List of line items extracted from the document. {@link CompletableFuture<String>}
+     * @return List of line items extracted from the document. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> getLineItemsAsync(String documentId);
 
@@ -191,7 +191,7 @@ public interface Client {
      * Retrieve a line item for existing document by ID. https://docs.veryfi.com/api/receipts-invoices/get-a-line-item/
      * @param documentId ID of the document you'd like to retrieve.
      * @param lineItemId ID of the line item you'd like to retrieve.
-     * @return Line item extracted from the document. {@link CompletableFuture<String>}
+     * @return Line item extracted from the document. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> getLineItemAsync(String documentId, String lineItemId);
 
@@ -208,7 +208,7 @@ public interface Client {
      * Add a new line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/create-a-line-item/
      * @param documentId ID of the document you'd like to update.
      * @param payload line item object to add.
-     * @return Added line item data. {@link CompletableFuture<String>}
+     * @return Added line item data. {@link CompletableFuture}{@code <String>}
      * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     CompletableFuture<String> addLineItemAsync(String documentId, AddLineItem payload) throws NotValidModelException;
@@ -228,7 +228,7 @@ public interface Client {
      * @param documentId ID of the document you'd like to update.
      * @param lineItemId ID of the line item you'd like to update.
      * @param payload line item object to update.
-     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture<String>}
+     * @return Line item data with updated fields, if fields are writable. Otherwise line item data with unchanged fields. {@link CompletableFuture}{@code <String>}
      * @throws NotValidModelException when the model is not valid it throws this exception.
      */
     CompletableFuture<String> updateLineItemAsync(String documentId, String lineItemId, UpdateLineItem payload) throws NotValidModelException;
@@ -243,7 +243,7 @@ public interface Client {
     /**
      * Delete all line items on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-all-document-line-items/
      * @param documentId ID of the document you'd like to delete.
-     * @return @return the response data. {@link CompletableFuture<String>}
+     * @return return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteLineItemsAsync(String documentId);
 
@@ -259,7 +259,7 @@ public interface Client {
      * Delete an existing line item on an existing document. https://docs.veryfi.com/api/receipts-invoices/delete-a-line-item/
      * @param documentId  ID of the document you'd like to delete.
      * @param lineItemId  ID of the line item you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteLineItemAsync(String documentId, String lineItemId);
 
@@ -275,7 +275,7 @@ public interface Client {
      * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> replaceTagsAsync(String documentId, List<String> tags);
 
@@ -291,7 +291,7 @@ public interface Client {
      * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> addTagsAsync(String documentId, List<String> tags);
 
@@ -308,7 +308,7 @@ public interface Client {
     String getAnyDocuments(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of AnyDocuments. https://docs.veryfi.com/api/anydocs/get-A-docs/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of AnyDocuments. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -328,7 +328,7 @@ public interface Client {
     String getAnyDocument(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} AnyDocument information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
+     * Returns a json string {@link CompletableFuture}{@code <String>} AnyDocument information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to retrieve.
      * @return the data extracted from the AnyDocument {@link String}
@@ -351,7 +351,7 @@ public interface Client {
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the AnyDocument {@link CompletableFuture<String>}
+     * @return the data extracted from the AnyDocument {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processAnyDocumentAsync(String filePath, String blueprintName, JSONObject parameters);
 
@@ -373,7 +373,7 @@ public interface Client {
      * @param fileData      Base64 encoded file data
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the AnyDocument {@link CompletableFuture<String>}
+     * @return the data extracted from the AnyDocument {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processAnyDocumentAsync(String fileName, String fileData, String blueprintName, JSONObject parameters);
 
@@ -395,7 +395,7 @@ public interface Client {
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters
-     * @return the data extracted from the AnyDocument {@link CompletableFuture<String>}
+     * @return the data extracted from the AnyDocument {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processAnyDocumentUrlAsync(String fileUrl, List<String> fileUrls, String blueprintName, JSONObject parameters);
 
@@ -411,7 +411,7 @@ public interface Client {
      * Delete AnyDocument from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the AnyDocument you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteAnyDocumentAsync(String documentId);
 
@@ -428,7 +428,7 @@ public interface Client {
     public String getBankStatements(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of BankStatements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of BankStatements. https://docs.veryfi.com/api/bank-statements/get-bank-statements/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -448,7 +448,7 @@ public interface Client {
     String getBankStatement(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} BankStatement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
+     * Returns a json string {@link CompletableFuture}{@code <String>} BankStatement information. https://docs.veryfi.com/api/bank-statements/get-a-bank-statement/
      *
      * @param documentId ID of the BankStatement you'd like to retrieve.
      * @return the data extracted from the BankStatement {@link String}
@@ -469,7 +469,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBankStatementAsync(String filePath, JSONObject parameters);
 
@@ -489,7 +489,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBankStatementAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -509,7 +509,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Bank Statement {@link CompletableFuture<String>}
+     * @return the data extracted from the Bank Statement {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBankStatementUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -525,7 +525,7 @@ public interface Client {
      * Delete Bank Statement from Veryfi. https://docs.veryfi.com/api/bank-statements/delete-a-bank-statement/
      *
      * @param documentId ID of the Bank Statement you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteBankStatementAsync(String documentId);
 
@@ -542,7 +542,7 @@ public interface Client {
     String getBusinessCards(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Business Cards. https://docs.veryfi.com/api/business-cards/get-business-cards/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -562,7 +562,7 @@ public interface Client {
     String getBusinessCard(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
+     * Returns a json string {@link CompletableFuture}{@code <String>} Business Card information. https://docs.veryfi.com/api/business-cards/get-a-business-card/
      *
      * @param documentId ID of the BusinessCard you'd like to retrieve.
      * @return the data extracted from the Business Card {@link String}
@@ -583,7 +583,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     * @return the data extracted from the Business Card {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBusinessCardAsync(String filePath, JSONObject parameters);
 
@@ -603,7 +603,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     * @return the data extracted from the Business Card {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBusinessCardAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -623,7 +623,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Business Card {@link CompletableFuture<String>}
+     * @return the data extracted from the Business Card {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processBusinessCardUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -639,7 +639,7 @@ public interface Client {
      * Delete BusinessCard from Veryfi. https://docs.veryfi.com/api/business-cards/delete-a-business-card/
      *
      * @param documentId ID of the Business Card you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteBusinessCardAsync(String documentId);
 
@@ -656,7 +656,7 @@ public interface Client {
     String getChecks(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Checks. https://docs.veryfi.com/api/checks/get-checks/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Checks. https://docs.veryfi.com/api/checks/get-checks/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -676,7 +676,7 @@ public interface Client {
     String getCheck(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Check information.
+     * Returns a json string {@link CompletableFuture}{@code <String>} Check information.
      *
      * @param documentId ID of the Check you'd like to retrieve. https://docs.veryfi.com/api/checks/get-a-check/
      * @return the data extracted from the Check {@link String}
@@ -697,7 +697,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processCheckAsync(String filePath, JSONObject parameters);
 
@@ -717,7 +717,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processCheckAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -737,7 +737,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Check {@link CompletableFuture<String>}
+     * @return the data extracted from the Check {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processCheckUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -753,7 +753,7 @@ public interface Client {
      * Delete Check from Veryfi. https://docs.veryfi.com/api/checks/delete-a-check/
      *
      * @param documentId ID of the Check you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteCheckAsync(String documentId);
 
@@ -770,7 +770,7 @@ public interface Client {
     String getW2s(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -790,7 +790,7 @@ public interface Client {
     String getW2(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
+     * Returns a json string {@link CompletableFuture}{@code <String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -811,7 +811,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW2Async(String filePath, JSONObject parameters);
 
@@ -831,7 +831,7 @@ public interface Client {
      * @param fileName      Name of the file to submit for data extraction.
      * @param fileData      Base64 encoded file data.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters);
 
@@ -851,7 +851,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW2UrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -867,7 +867,7 @@ public interface Client {
      * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteW2Async(String documentId);
 
@@ -884,7 +884,7 @@ public interface Client {
     String getW8BenEs(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of W-8BEN-E. https://docs.veryfi.com/api/w-8ben-e/get-w-8-ben-es/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -904,7 +904,7 @@ public interface Client {
     String getW8BenE(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W-8BEN-E information.
+     * Returns a json string {@link CompletableFuture}{@code <String>} W-8BEN-E information.
      *
      * @param documentId ID of the W-8BEN-E you'd like to retrieve. https://docs.veryfi.com/api/w-8ben-e/get-a-w-8-ben-e/
      * @return the data extracted from the W-8BEN-E {@link String}
@@ -925,7 +925,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW8BenEAsync(String filePath, JSONObject parameters);
 
@@ -945,7 +945,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW8BenEUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -961,7 +961,7 @@ public interface Client {
      * Delete W-8BEN-E from Veryfi. https://docs.veryfi.com/api/w-8ben-e/delete-a-w-8-ben-e/
      *
      * @param documentId ID of the W-8BEN-E you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteW8BenEAsync(String documentId);
 
@@ -978,7 +978,7 @@ public interface Client {
     String getW9s(int page, int pageSize, boolean boundingBoxes, boolean confidenceDetails, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -998,7 +998,7 @@ public interface Client {
     String getW9(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
+     * Returns a json string {@link CompletableFuture}{@code <String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -1019,7 +1019,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW9Async(String filePath, JSONObject parameters);
 
@@ -1039,7 +1039,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters);
 
@@ -1059,7 +1059,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW9UrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -1075,7 +1075,7 @@ public interface Client {
      * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteW9Async(String documentId);
 
@@ -1090,7 +1090,7 @@ public interface Client {
     String getContracts(int page, int pageSize, JSONObject parameters);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Contracts.
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Contracts.
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -1108,7 +1108,7 @@ public interface Client {
     String getContract(String documentId);
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} with the Contract information.
+     * Returns a json string {@link CompletableFuture}{@code <String>} with the Contract information.
      *
      * @param documentId ID of the Contract you'd like to retrieve.
      * @return the data extracted from the Contract {@link String}
@@ -1129,7 +1129,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processContractAsync(String filePath, JSONObject parameters);
 
@@ -1149,7 +1149,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processContractAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -1169,7 +1169,7 @@ public interface Client {
      * @param fileName      Name of the file to submit for data extraction.
      * @param fileData      Base64 encoded file data.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W-8BEN-E {@link CompletableFuture<String>}
+     * @return the data extracted from the W-8BEN-E {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processW8BenEAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -1187,7 +1187,7 @@ public interface Client {
      *
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Contract {@link CompletableFuture<String>}
+     * @return the data extracted from the Contract {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processContractUrlAsync(String fileUrl, JSONObject parameters);
 
@@ -1203,7 +1203,7 @@ public interface Client {
      * Delete a Contract from Veryfi.
      *
      * @param documentId ID of the Contract you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> deleteContractAsync(String documentId);
 
@@ -1221,7 +1221,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> classifyDocumentAsync(String filePath, JSONObject parameters);
 
@@ -1241,7 +1241,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> classifyDocumentAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -1261,7 +1261,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> classifyDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -1279,7 +1279,7 @@ public interface Client {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture <String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> splitDocumentAsync(String filePath, JSONObject parameters);
 
@@ -1299,7 +1299,7 @@ public interface Client {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> splitDocumentAsync(String fileName, String fileData, JSONObject parameters);
 
@@ -1319,7 +1319,7 @@ public interface Client {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> splitDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters);
 
@@ -1359,7 +1359,7 @@ public interface Client {
      * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
      *
      * @param documentId ID of the document you'd like to retrieve.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> getSplitDocumentAsync(String documentId);
 

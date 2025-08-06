@@ -4,7 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * header constants for HttpRequests.
+ * Constants used throughout the Veryfi Java SDK.
+ * <p>
+ * This class contains all the constant values used for HTTP headers, request parameters,
+ * and default configurations when communicating with the Veryfi API. It includes
+ * standard HTTP headers, Veryfi-specific headers, parameter names, and a default
+ * list of document categories.
+ * </p>
  */
 public final class Constants {
     private Constants() {
