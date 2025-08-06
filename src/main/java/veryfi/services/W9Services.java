@@ -57,7 +57,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of W9s. https://docs.veryfi.com/api/w9s/get-w-9-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -90,7 +90,7 @@ class W9Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
+     * Returns a json string {@link CompletableFuture}{@code <String>} W9 information. https://docs.veryfi.com/api/w9s/get-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to retrieve.
      * @return the data extracted from the W9 {@link String}
@@ -119,7 +119,7 @@ class W9Services extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW9Async(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -145,7 +145,7 @@ class W9Services extends NetworkClient {
      * @param fileName      Name of the file to submit for data extraction.
      * @param fileData      Base64 encoded file data.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW9Async(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -171,7 +171,7 @@ class W9Services extends NetworkClient {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the W9 {@link CompletableFuture<String>}
+     * @return the data extracted from the W9 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW9UrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -195,7 +195,7 @@ class W9Services extends NetworkClient {
      * Delete W9 from Veryfi. https://docs.veryfi.com/api/w9s/delete-a-w-9/
      *
      * @param documentId ID of the W9 you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteW9Async(String documentId) {
         String endpointName = Endpoint.w9s.path + documentId + "/";

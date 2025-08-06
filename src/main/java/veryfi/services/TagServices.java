@@ -41,7 +41,7 @@ class TagServices extends NetworkClient {
      * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture <String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
         protected String replaceTags(String documentId, List<String> tags) {
         String endpointName = Endpoint.documents.path + documentId + "/";
@@ -55,7 +55,7 @@ class TagServices extends NetworkClient {
      * Replace multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
         protected CompletableFuture<String> replaceTagsAsync(String documentId, List<String> tags) {
         String endpointName = Endpoint.documents.path + documentId + "/";
@@ -69,7 +69,7 @@ class TagServices extends NetworkClient {
      * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
         protected String addTags(String documentId, List<String> tags) {
         String endpointName = Endpoint.documents.path + documentId + "/tags/";
@@ -83,7 +83,7 @@ class TagServices extends NetworkClient {
      * Add multiple tags on an existing document. https://docs.veryfi.com/api/receipts-invoices/add-tags-to-a-document/
      * @param documentId  ID of the document you'd like to update.
      * @param tags  tags array of tags to be added.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
         protected CompletableFuture<String> addTagsAsync(String documentId, List<String> tags) {
         String endpointName = Endpoint.documents.path + documentId + "/tags/";

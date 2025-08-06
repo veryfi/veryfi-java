@@ -57,7 +57,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of W2s. https://docs.veryfi.com/api/w2s/get-w-2-s/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -90,7 +90,7 @@ class W2Services extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
+     * Returns a json string {@link CompletableFuture}{@code <String>} W2 information. https://docs.veryfi.com/api/w2s/get-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to retrieve.
      * @return the data extracted from the W2 {@link String}
@@ -119,7 +119,7 @@ class W2Services extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW2Async(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -145,7 +145,7 @@ class W2Services extends NetworkClient {
      * @param fileName      Name of the file to submit for data extraction.
      * @param fileData      Base64 encoded file data.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW2Async(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -171,7 +171,7 @@ class W2Services extends NetworkClient {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters
-     * @return the data extracted from the W2 {@link CompletableFuture<String>}
+     * @return the data extracted from the W2 {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processW2UrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -195,7 +195,7 @@ class W2Services extends NetworkClient {
      * Delete W2 from Veryfi. https://docs.veryfi.com/api/w2s/delete-a-w-2/
      *
      * @param documentId ID of the W2 you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteW2Async(String documentId) {
         String endpointName = Endpoint.w2s.path + documentId + "/";

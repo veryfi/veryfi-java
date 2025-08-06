@@ -61,7 +61,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of documents. https://docs.veryfi.com/api/receipts-invoices/search-documents/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -94,7 +94,7 @@ class DocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
+     * Returns a json string {@link CompletableFuture}{@code <String>} document information. https://docs.veryfi.com/api/receipts-invoices/get-a-document/
      *
      * @param documentId ID of the document you'd like to retrieve.
      * @return the data extracted from the Document {@link String}
@@ -128,7 +128,7 @@ class DocumentServices extends NetworkClient {
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
      * @param parameters            Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processDocumentAsync(String filePath, List<String> categories,
                                                           boolean deleteAfterProcessing, JSONObject parameters) {
@@ -160,7 +160,7 @@ class DocumentServices extends NetworkClient {
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
      * @param parameters            Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
                                                              boolean deleteAfterProcessing, JSONObject parameters) {
@@ -199,7 +199,7 @@ class DocumentServices extends NetworkClient {
      * @param boostMode             Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
      * @param externalId            Optional custom document identifier. Use this if you would like to assign your own ID to documents
      * @param parameters            Additional request parameters
-     * @return the data extracted from the Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processDocumentUrlAsync(String fileUrl, List<String> fileUrls,
                                                              List<String> categories, boolean deleteAfterProcessing,
@@ -226,7 +226,7 @@ class DocumentServices extends NetworkClient {
      * Delete Document from Veryfi. https://docs.veryfi.com/api/receipts-invoices/delete-a-document/
      *
      * @param documentId ID of the document you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteDocumentAsync(String documentId) {
         String endpointName = Endpoint.documents.path + documentId + "/";
@@ -252,7 +252,7 @@ class DocumentServices extends NetworkClient {
      * https://docs.veryfi.com/api/receipts-invoices/update-a-document/
      * @param documentId ID of the document you'd like to update.
      * @param parameters Additional request parameters
-     * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link CompletableFuture<String>}
+     * @return A document json with updated fields, if fields are writable. Otherwise, a document with unchanged fields. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> updateDocumentAsync(String documentId, JSONObject parameters) {
         String endpointName = Endpoint.documents.path + documentId + "/";

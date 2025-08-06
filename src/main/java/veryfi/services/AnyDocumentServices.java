@@ -57,7 +57,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} list of Any Documents. https://docs.veryfi.com/api/anydocs/get-A-docs/
+     * Returns a json string {@link CompletableFuture}{@code <String>} list of Any Documents. https://docs.veryfi.com/api/anydocs/get-A-docs/
      *
      * @param page   The page number. The response is capped to maximum of 50 results per page.
      * @param pageSize The number of Documents per page.
@@ -90,7 +90,7 @@ class AnyDocumentServices extends NetworkClient {
     }
 
     /**
-     * Returns a json string {@link CompletableFuture<String>} Any Document information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
+     * Returns a json string {@link CompletableFuture}{@code <String>} Any Document information. https://docs.veryfi.com/api/anydocs/get-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to retrieve.
      * @return the data extracted from the Any Document {@link String}
@@ -122,7 +122,7 @@ class AnyDocumentServices extends NetworkClient {
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Any Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Any Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processAnyDocumentAsync(String filePath, String blueprintName, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -152,7 +152,7 @@ class AnyDocumentServices extends NetworkClient {
      * @param fileData      Base64 encoded file data
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the Any Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Any Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processAnyDocumentAsync(String fileName, String fileData, String blueprintName, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -182,7 +182,7 @@ class AnyDocumentServices extends NetworkClient {
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param blueprintName The name of the extraction blueprints.
      * @param parameters    Additional request parameters
-     * @return the data extracted from the Any Document {@link CompletableFuture<String>}
+     * @return the data extracted from the Any Document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> processAnyDocumentUrlAsync(String fileUrl, List<String> fileUrls, String blueprintName, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -207,7 +207,7 @@ class AnyDocumentServices extends NetworkClient {
      * Delete Any Document from Veryfi. https://docs.veryfi.com/api/anydocs/delete-a-A-doc/
      *
      * @param documentId ID of the Any Document you'd like to delete.
-     * @return the response data. {@link CompletableFuture<String>}
+     * @return the response data. {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> deleteAnyDocumentAsync(String documentId) {
         String endpointName = Endpoint.anyDocuments.path + documentId + "/";

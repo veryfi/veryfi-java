@@ -53,7 +53,7 @@ public class SplitServices extends NetworkClient {
      *
      * @param filePath      Path on disk to a file to submit for data extraction.
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture <String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> splitDocumentAsync(String filePath, JSONObject parameters) {
         parameters = addFileToParameters(filePath, parameters);
@@ -79,7 +79,7 @@ public class SplitServices extends NetworkClient {
      * @param fileName      Name of the file to upload to the Veryfi API
      * @param fileData      Base64 encoded file data
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> splitDocumentAsync(String fileName, String fileData, JSONObject parameters) {
         parameters = addFileToParameters(fileName, fileData, parameters);
@@ -105,7 +105,7 @@ public class SplitServices extends NetworkClient {
      * @param fileUrl       Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
      * @param fileUrls      Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
      * @param parameters    Additional request parameters.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> splitDocumentUrlAsync(String fileUrl, List<String> fileUrls, JSONObject parameters) {
         parameters = addUrlToParameters(fileUrl, fileUrls, parameters);
@@ -169,7 +169,7 @@ public class SplitServices extends NetworkClient {
      * Veryfi's Get a Documents from PDF endpoint allows you to retrieve a collection of previously processed documents. https://docs.veryfi.com/api/receipts-invoices/get-documents-from-pdf/
      *
      * @param documentId ID of the document you'd like to retrieve.
-     * @return the data extracted from the document {@link CompletableFuture<String>}
+     * @return the data extracted from the document {@link CompletableFuture}{@code <String>}
      */
     protected CompletableFuture<String> getSplitDocumentAsync(String documentId) {
         String endpointName = Endpoint.split.path + documentId + "/";
