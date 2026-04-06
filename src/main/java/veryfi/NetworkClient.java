@@ -1,5 +1,6 @@
 package veryfi;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import veryfi.enums.HttpMethod;
 
@@ -7,6 +8,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
@@ -141,14 +143,44 @@ abstract public class NetworkClient {
                     .headers(headers.toArray(new String[0]))
                     .PUT(HttpRequest.BodyPublishers.ofString(requestArguments.toString()))
                     .build();
-            default -> request = HttpRequest.newBuilder()
-                    .uri(URI.create(apiUrl))
-                    .timeout(Duration.ofSeconds(timeOut))
-                    .headers(headers.toArray(new String[0]))
-                    .GET()
-                    .build();
+            default -> {
+                String getUri = apiUrl;
+                String query = buildQueryString(requestArguments);
+                if (!query.isEmpty()) {
+                    getUri = apiUrl + "?" + query;
+                }
+                request = HttpRequest.newBuilder()
+                        .uri(URI.create(getUri))
+                        .timeout(Duration.ofSeconds(timeOut))
+                        .headers(headers.toArray(new String[0]))
+                        .GET()
+                        .build();
+            }
         }
         return request;
+    }
+
+    /**
+     * Builds an application/x-www-form-urlencoded query string from a JSON object (GET parameters).
+     */
+    private static String buildQueryString(JSONObject requestArguments) {
+        if (requestArguments == null || requestArguments.isEmpty()) {
+            return "";
+        }
+        StringJoiner joiner = new StringJoiner("&");
+        for (String key : requestArguments.keySet()) {
+            Object value = requestArguments.opt(key);
+            if (value == null || JSONObject.NULL.equals(value)) {
+                continue;
+            }
+            String valueStr = (value instanceof JSONObject || value instanceof JSONArray)
+                    ? value.toString()
+                    : String.valueOf(value);
+            joiner.add(URLEncoder.encode(key, StandardCharsets.UTF_8)
+                    + "="
+                    + URLEncoder.encode(valueStr, StandardCharsets.UTF_8));
+        }
+        return joiner.toString();
     }
 
     /**
