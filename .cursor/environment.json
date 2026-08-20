@@ -1,0 +1,8 @@
+{
+    "name": "veryfi-java",
+    "user": "ubuntu",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "install": "mvn -B -ntp -DskipTests package"
+}
