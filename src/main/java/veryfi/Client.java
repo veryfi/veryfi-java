@@ -59,7 +59,7 @@ public interface Client {
      * @param filePath Path on disk to a file to submit for data extraction
      * @param categories List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link String}
      */
     String processDocument(String filePath, List<String> categories, boolean deleteAfterProcessing,
@@ -70,7 +70,7 @@ public interface Client {
      * @param filePath Path on disk to a file to submit for data extraction
      * @param categories List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentAsync(String filePath, List<String> categories,
@@ -83,7 +83,7 @@ public interface Client {
      * @param fileData              Base64 encoded file data
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
-     * @param parameters            Additional request parameters
+     * @param parameters            Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link String}
      */
     String processDocument(String fileName, String fileData, List<String> categories,
@@ -96,7 +96,7 @@ public interface Client {
      * @param fileData              Base64 encoded file data
      * @param categories            List of categories Veryfi can use to categorize the document
      * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
-     * @param parameters            Additional request parameters
+     * @param parameters            Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
@@ -111,7 +111,7 @@ public interface Client {
      * @param maxPagesToProcess When sending a long document to Veryfi for processing, this parameter controls how many pages of the document will be read and processed, starting from page 1.
      * @param boostMode Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
      * @param externalId Optional custom document identifier. Use this if you would like to assign your own ID to documents
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link String}
      */
     String processDocumentUrl(String fileUrl, List<String> fileUrls, List<String> categories, boolean deleteAfterProcessing,
@@ -126,7 +126,7 @@ public interface Client {
      * @param maxPagesToProcess When sending a long document to Veryfi for processing, this parameter controls how many pages of the document will be read and processed, starting from page 1.
      * @param boostMode Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
      * @param externalId Optional custom document identifier. Use this if you would like to assign your own ID to documents
-     * @param parameters Additional request parameters
+     * @param parameters Additional request parameters. Set {@code thinking} to {@code "light"} or {@code "deep"} (slower) for an extra LLM pass on the line items; omit it to turn it off. Needs thinking mode enabled for your account.
      * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
      */
     CompletableFuture<String> processDocumentUrlAsync(String fileUrl, List<String> fileUrls, List<String> categories, boolean deleteAfterProcessing,

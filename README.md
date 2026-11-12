@@ -54,6 +54,13 @@ public class Main {
 }
 ``` 
 
+Run thinking on the line items by passing `thinking` (`"light"` or `"deep"`) in the extra parameters; leave it out to turn it off. `processDocument`, `processDocumentUrl` and their `Async` versions accept it, and `"deep"` takes longer than `"light"`. It only takes effect if thinking mode is enabled for your account.
+```java
+JSONObject parameters = new JSONObject();
+parameters.put("thinking", "light");
+String jsonResponse = client.processDocument("example1.jpg", categories, false, parameters);
+```
+
 Update a document
 ```java
 import veryfi.*;
