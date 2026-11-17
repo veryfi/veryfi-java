@@ -54,6 +54,31 @@ public class Main {
 }
 ``` 
 
+### Thinking Mode
+
+The `processDocument` / `processDocumentUrl` family accepts an optional `thinking` parameter for
+receipts and invoices. `"light"` runs a quick agent review and `"deep"` runs a thorough review.
+Pass `null` (or use the overload without the parameter) to use the standard pipeline.
+See https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+
+```java
+import veryfi.*;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        String clientId = "your_client_id";
+        String clientSecret = "your_client_secret";
+        String username = "your_username";
+        String apiKey = "your_password";
+        Client client = VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey);
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        String jsonResponse = client.processDocument("example1.jpg", categories, false, null, "deep");
+    }
+}
+```
+
 Update a document
 ```java
 import veryfi.*;
