@@ -100,6 +100,11 @@ public final class Constants {
      * header for HttpRequest
      */
     public static final String MAX_PAGES_TO_PROCESS = "max_pages_to_process";
+    /**
+     * Request parameter for the document processing Thinking Mode. Accepted values are
+     * {@code "light"} and {@code "deep"}; the field is omitted to use the standard pipeline.
+     */
+    public static final String THINKING = "thinking";
 
     /**
      * default list of categories.

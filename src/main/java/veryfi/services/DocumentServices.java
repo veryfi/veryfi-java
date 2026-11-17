@@ -117,7 +117,23 @@ class DocumentServices extends NetworkClient {
      */
     protected String processDocument(String filePath, List<String> categories, boolean deleteAfterProcessing,
                                   JSONObject parameters) {
+        return processDocument(filePath, categories, deleteAfterProcessing, parameters, null);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param filePath              Path on disk to a file to submit for data extraction
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link String}
+     */
+    protected String processDocument(String filePath, List<String> categories, boolean deleteAfterProcessing,
+                                  JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentArguments(filePath, categories, deleteAfterProcessing, parameters);
+        applyThinking(requestArguments, thinking);
         return request(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -132,7 +148,23 @@ class DocumentServices extends NetworkClient {
      */
     protected CompletableFuture<String> processDocumentAsync(String filePath, List<String> categories,
                                                           boolean deleteAfterProcessing, JSONObject parameters) {
+        return processDocumentAsync(filePath, categories, deleteAfterProcessing, parameters, null);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param filePath              Path on disk to a file to submit for data extraction
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
+     */
+    protected CompletableFuture<String> processDocumentAsync(String filePath, List<String> categories,
+                                                          boolean deleteAfterProcessing, JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentArguments(filePath, categories, deleteAfterProcessing, parameters);
+        applyThinking(requestArguments, thinking);
         return requestAsync(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -148,7 +180,24 @@ class DocumentServices extends NetworkClient {
      */
     protected String processDocument(String fileName, String fileData, List<String> categories,
                                      boolean deleteAfterProcessing, JSONObject parameters) {
+        return processDocument(fileName, fileData, categories, deleteAfterProcessing, parameters, null);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link String}
+     */
+    protected String processDocument(String fileName, String fileData, List<String> categories,
+                                     boolean deleteAfterProcessing, JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentArguments(fileName, fileData, categories, deleteAfterProcessing, parameters);
+        applyThinking(requestArguments, thinking);
         return request(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -164,7 +213,24 @@ class DocumentServices extends NetworkClient {
      */
     protected CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
                                                              boolean deleteAfterProcessing, JSONObject parameters) {
+        return processDocumentAsync(fileName, fileData, categories, deleteAfterProcessing, parameters, null);
+    }
+
+    /**
+     * Process a document and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileName              Name of the file to upload to the Veryfi API
+     * @param fileData              Base64 encoded file data
+     * @param categories            List of categories Veryfi can use to categorize the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
+     */
+    protected CompletableFuture<String> processDocumentAsync(String fileName, String fileData, List<String> categories,
+                                                             boolean deleteAfterProcessing, JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentArguments(fileName, fileData, categories, deleteAfterProcessing, parameters);
+        applyThinking(requestArguments, thinking);
         return requestAsync(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -184,7 +250,28 @@ class DocumentServices extends NetworkClient {
     protected String processDocumentUrl(String fileUrl, List<String> fileUrls, List<String> categories,
                                      boolean deleteAfterProcessing, int maxPagesToProcess,
                                      boolean boostMode, String externalId, JSONObject parameters) {
+        return processDocumentUrl(fileUrl, fileUrls, categories, deleteAfterProcessing, maxPagesToProcess, boostMode, externalId, parameters, null);
+    }
+
+    /**
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param categories            List of categories to use when categorizing the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param maxPagesToProcess     When sending a long document to Veryfi for processing, this parameter controls how many pages of the document will be read and processed, starting from page 1.
+     * @param boostMode             Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
+     * @param externalId            Optional custom document identifier. Use this if you would like to assign your own ID to documents
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link String}
+     */
+    protected String processDocumentUrl(String fileUrl, List<String> fileUrls, List<String> categories,
+                                     boolean deleteAfterProcessing, int maxPagesToProcess,
+                                     boolean boostMode, String externalId, JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentUrlArguments(fileUrl, fileUrls, categories, deleteAfterProcessing, maxPagesToProcess, boostMode, externalId, parameters);
+        applyThinking(requestArguments, thinking);
         return request(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -205,7 +292,29 @@ class DocumentServices extends NetworkClient {
                                                              List<String> categories, boolean deleteAfterProcessing,
                                                              int maxPagesToProcess, boolean boostMode,
                                                              String externalId, JSONObject parameters) {
+        return processDocumentUrlAsync(fileUrl, fileUrls, categories, deleteAfterProcessing, maxPagesToProcess, boostMode, externalId, parameters, null);
+    }
+
+    /**
+     * Process Document from url and extract all the fields from it. https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+     *
+     * @param fileUrl               Required if file_urls isn't specified. Publicly accessible URL to a file, e.g. "https://cdn.example.com/receipt.jpg".
+     * @param fileUrls              Required if file_url isn't specifies. List of publicly accessible URLs to multiple files, e.g. ["https://cdn.example.com/receipt1.jpg", "https://cdn.example.com/receipt2.jpg"]
+     * @param categories            List of categories to use when categorizing the document
+     * @param deleteAfterProcessing Delete this document from Veryfi after data has been extracted
+     * @param maxPagesToProcess     When sending a long document to Veryfi for processing, this parameter controls how many pages of the document will be read and processed, starting from page 1.
+     * @param boostMode             Flag that tells Veryfi whether boost mode should be enabled. When set to 1, Veryfi will skip data enrichment steps, but will process the document faster. Default value for this flag is 0
+     * @param externalId            Optional custom document identifier. Use this if you would like to assign your own ID to documents
+     * @param parameters            Additional request parameters
+     * @param thinking              Optional Thinking Mode for receipts and invoices ("light" or "deep"); omit (null) for the standard pipeline
+     * @return the data extracted from the Document {@link CompletableFuture}{@code <String>}
+     */
+    protected CompletableFuture<String> processDocumentUrlAsync(String fileUrl, List<String> fileUrls,
+                                                             List<String> categories, boolean deleteAfterProcessing,
+                                                             int maxPagesToProcess, boolean boostMode,
+                                                             String externalId, JSONObject parameters, String thinking) {
         JSONObject requestArguments = getProcessDocumentUrlArguments(fileUrl, fileUrls, categories, deleteAfterProcessing, maxPagesToProcess, boostMode, externalId, parameters);
+        applyThinking(requestArguments, thinking);
         return requestAsync(HttpMethod.POST, Endpoint.documents.path, requestArguments);
     }
 
@@ -269,6 +378,20 @@ class DocumentServices extends NetworkClient {
      * @param parameters            Additional request parameters
      * @return the JSON object of the parameters of the request
      */
+    /**
+     * Adds the optional Thinking Mode flag to the request arguments when provided.
+     * When {@code thinking} is {@code null} the field is omitted so the standard pipeline is used.
+     * Accepted values are {@code "light"} and {@code "deep"}.
+     *
+     * @param requestArguments the request arguments to enrich
+     * @param thinking         the Thinking Mode value, or {@code null} to omit it
+     */
+    private void applyThinking(JSONObject requestArguments, String thinking) {
+        if (thinking != null) {
+            requestArguments.put(THINKING, thinking);
+        }
+    }
+
     private JSONObject getProcessDocumentArguments(String fileName, String fileData, List<String> categories,
                                                    boolean deleteAfterProcessing, JSONObject parameters) {
         if (categories == null || categories.isEmpty()) {

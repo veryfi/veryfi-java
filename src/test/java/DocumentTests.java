@@ -2,6 +2,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import veryfi.VeryfiClientFactory;
 import veryfi.services.ClientImpl;
@@ -11,14 +12,20 @@ import java.io.InputStream;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Flow;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class DocumentTests {
@@ -352,6 +359,72 @@ class DocumentTests {
     }
 
     @Test
+    void processDocumentWithThinkingTest() throws IOException, InterruptedException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        mockProcessDocumentResponse();
+        String jsonResponse = client.processDocument(getFilePath(), categories, false, null, "deep");
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("deep", capturedRequestBody().getString("thinking"));
+    }
+
+    @Test
+    void processDocumentBase64WithThinkingTest() throws IOException, InterruptedException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        mockProcessDocumentResponse();
+        String jsonResponse = client.processDocument(getFileName(), getFileData(), categories, false, new JSONObject(), "light");
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("light", capturedRequestBody().getString("thinking"));
+    }
+
+    @Test
+    void processDocumentUrlWithThinkingTest() throws IOException, InterruptedException {
+        mockProcessDocumentResponse();
+        String jsonResponse = client.processDocumentUrl(documentUrl, null, null, false, 1, false, null, null, "deep");
+        JSONObject document = new JSONObject(jsonResponse);
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("deep", capturedRequestBody().getString("thinking"));
+    }
+
+    @Test
+    void processDocumentWithoutThinkingOmitsFieldTest() throws IOException, InterruptedException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        mockProcessDocumentResponse();
+        client.processDocument(getFilePath(), categories, false, null);
+        Assertions.assertFalse(capturedRequestBody().has("thinking"));
+    }
+
+    @Test
+    void processDocumentAsyncWithThinkingTest() throws ExecutionException, InterruptedException, IOException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        mockProcessDocumentResponseAsync();
+        CompletableFuture<String> future = client.processDocumentAsync(getFilePath(), categories, false, null, "light");
+        JSONObject document = new JSONObject(future.get());
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("light", capturedAsyncRequestBody().getString("thinking"));
+    }
+
+    @Test
+    void processDocumentBase64AsyncWithThinkingTest() throws ExecutionException, InterruptedException, IOException {
+        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
+        mockProcessDocumentResponseAsync();
+        CompletableFuture<String> future = client.processDocumentAsync(getFileName(), getFileData(), categories, false, new JSONObject(), "deep");
+        JSONObject document = new JSONObject(future.get());
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("deep", capturedAsyncRequestBody().getString("thinking"));
+    }
+
+    @Test
+    void processDocumentUrlAsyncWithThinkingTest() throws ExecutionException, InterruptedException, IOException {
+        mockProcessDocumentResponseAsync();
+        CompletableFuture<String> future = client.processDocumentUrlAsync(documentUrl, null, null, false, 1, false, null, null, "light");
+        JSONObject document = new JSONObject(future.get());
+        Assertions.assertEquals("Walgreens", document.getJSONObject("vendor").getString("name"));
+        Assertions.assertEquals("light", capturedAsyncRequestBody().getString("thinking"));
+    }
+
+    @Test
     void testBadCredentials() throws IOException {
         String clientId = "bad_client_id";
         String clientSecret = "bad_client_secret";
@@ -364,6 +437,76 @@ class DocumentTests {
         assert fileStream != null;
         String result = new String(fileStream.readAllBytes());
         Assertions.assertEquals(result, jsonResponse);
+    }
+
+    private void mockProcessDocumentResponse() throws IOException, InterruptedException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(httpResponse);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+    }
+
+    private void mockProcessDocumentResponseAsync() throws IOException {
+        if (mockResponses) {
+            InputStream fileStream = ClassLoader.getSystemResourceAsStream("documents/processDocument.json");
+            assert fileStream != null;
+            String result = new String(fileStream.readAllBytes());
+            HttpResponse<String> httpResponse = mock(HttpResponse.class);
+            CompletableFuture<HttpResponse<String>> future = CompletableFuture.completedFuture(httpResponse);
+            when(httpClient.sendAsync(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any())).thenReturn(future);
+            when(httpResponse.statusCode()).thenReturn(200);
+            when(httpResponse.body()).thenReturn(result);
+        }
+    }
+
+    private JSONObject capturedRequestBody() throws IOException, InterruptedException {
+        ArgumentCaptor<HttpRequest> captor = ArgumentCaptor.forClass(HttpRequest.class);
+        verify(httpClient).send(captor.capture(), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any());
+        return new JSONObject(extractRequestBody(captor.getValue()));
+    }
+
+    private JSONObject capturedAsyncRequestBody() {
+        ArgumentCaptor<HttpRequest> captor = ArgumentCaptor.forClass(HttpRequest.class);
+        verify(httpClient).sendAsync(captor.capture(), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any());
+        return new JSONObject(extractRequestBody(captor.getValue()));
+    }
+
+    private static String extractRequestBody(HttpRequest request) {
+        HttpRequest.BodyPublisher publisher = request.bodyPublisher().orElseThrow();
+        StringBuilder body = new StringBuilder();
+        CountDownLatch latch = new CountDownLatch(1);
+        publisher.subscribe(new Flow.Subscriber<>() {
+            @Override
+            public void onSubscribe(Flow.Subscription subscription) {
+                subscription.request(Long.MAX_VALUE);
+            }
+
+            @Override
+            public void onNext(ByteBuffer item) {
+                body.append(StandardCharsets.UTF_8.decode(item));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                latch.countDown();
+            }
+
+            @Override
+            public void onComplete() {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return body.toString();
     }
 
     private String getFilePath() {

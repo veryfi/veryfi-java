@@ -54,11 +54,23 @@ public class Main {
 }
 ``` 
 
-Run thinking on the line items by passing `thinking` (`"light"` or `"deep"`) in the extra parameters; leave it out to turn it off. `processDocument`, `processDocumentUrl` and their `Async` versions accept it, and `"deep"` takes longer than `"light"`. It only takes effect if thinking mode is enabled for your account.
+### Thinking Mode
+
+Run an extra LLM pass ("thinking") on the line items of receipts and invoices by passing `thinking`
+(`"light"` or `"deep"`) — `"deep"` is more thorough but slower; leave it out to turn it off. It only
+takes effect if thinking mode is enabled for your account. `processDocument`, `processDocumentUrl` and
+their `Async` variants support it, either through the extra `parameters` or via the dedicated overload
+that takes a trailing `thinking` argument.
+See https://docs.veryfi.com/api/receipts-invoices/process-a-document/
+
 ```java
+// Option 1: pass it in the extra parameters
 JSONObject parameters = new JSONObject();
 parameters.put("thinking", "light");
 String jsonResponse = client.processDocument("example1.jpg", categories, false, parameters);
+
+// Option 2: use the dedicated thinking overload
+String jsonResponse2 = client.processDocument("example1.jpg", categories, false, null, "deep");
 ```
 
 Update a document
