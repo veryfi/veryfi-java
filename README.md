@@ -56,27 +56,21 @@ public class Main {
 
 ### Thinking Mode
 
-The `processDocument` / `processDocumentUrl` family accepts an optional `thinking` parameter for
-receipts and invoices. `"light"` runs a quick agent review and `"deep"` runs a thorough review.
-Pass `null` (or use the overload without the parameter) to use the standard pipeline.
+Run an extra LLM pass ("thinking") on the line items of receipts and invoices by passing `thinking`
+(`"light"` or `"deep"`) — `"deep"` is more thorough but slower; leave it out to turn it off. It only
+takes effect if thinking mode is enabled for your account. `processDocument`, `processDocumentUrl` and
+their `Async` variants support it, either through the extra `parameters` or via the dedicated overload
+that takes a trailing `thinking` argument.
 See https://docs.veryfi.com/api/receipts-invoices/process-a-document/
 
 ```java
-import veryfi.*;
-import java.util.Arrays;
-import java.util.List;
+// Option 1: pass it in the extra parameters
+JSONObject parameters = new JSONObject();
+parameters.put("thinking", "light");
+String jsonResponse = client.processDocument("example1.jpg", categories, false, parameters);
 
-public class Main {
-    public static void main(String[] args) {
-        String clientId = "your_client_id";
-        String clientSecret = "your_client_secret";
-        String username = "your_username";
-        String apiKey = "your_password";
-        Client client = VeryfiClientFactory.createClient(clientId, clientSecret, username, apiKey);
-        List<String> categories = Arrays.asList("Advertising & Marketing", "Automotive");
-        String jsonResponse = client.processDocument("example1.jpg", categories, false, null, "deep");
-    }
-}
+// Option 2: use the dedicated thinking overload
+String jsonResponse2 = client.processDocument("example1.jpg", categories, false, null, "deep");
 ```
 
 Update a document
